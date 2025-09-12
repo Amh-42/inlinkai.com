@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block title %}Instant Access: Your First Client Kit{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ url_for('index') }}#benefits">Community</a></li>
+<li><a href="{{ url_for('index') }}#about">About</a></li>
+<li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+<li><a href="{{ url_for('courses') }}">Courses</a></li>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* --- Overrides to create a distraction-free page --- */
+    /* Hide the footer only */
+    .footer {
+        display: none !important;
+    }
+
+    /* --- Access Page Styles --- */
+    .access-hero {
+        padding: 8rem 2rem 5rem;
+        background: var(--bg-primary);
+        text-align: center;
+    }
+
+    .access-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .access-header {
+        margin-bottom: 3rem;
+    }
+
+    .access-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .access-subtitle {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+    }
+    
+    /* --- Video Player --- */
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        margin-bottom: 3rem;
+    }
+
+    .video-placeholder {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%);
+        border: 1px solid var(--border-color);
+        border-radius: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .video-placeholder:hover {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .play-button {
+        width: 4rem;
+        height: 4rem;
+        background: var(--accent-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3);
+    }
+
+    .play-button i {
+        color: white;
+        font-size: 1.5rem;
+        margin-left: 0.2rem;
+    }
+
+    .video-placeholder:hover .play-button {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+    }
+
+    .video-overlay h3 {
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .video-overlay p {
+        color: var(--text-secondary);
+        margin: 0;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    /* --- Download & CTA Section --- */
+    .resources-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 2rem;
+        border-top: 1px solid var(--border-color);
+        padding-top: 3rem;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+    }
+
+    .action-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1.75rem;
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .download-button {
+        background: #fff;
+        color: #263397;
+        border: 2px solid #263397;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        padding: 0.875rem 1.75rem;
+        font-weight: 500;
+        border-radius: 2rem;
+        transition: all 0.3s ease;
+        min-width: fit-content;
+    }
+    .download-button:hover {
+        background: #263397;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(38, 51, 151, 0.3);
+        border-color: #263397;
+    }
+
+    .cta-container {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 1rem;
+        padding: 2.5rem;
+    }
+
+    .cta-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .cta-text {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .whop-join-button {
+        background: #fff;
+        color: #263397;
+        border: 2px solid #263397;
+        font-size: 1.125rem;
+        padding: 1rem 2rem;
+        border-radius: 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        min-width: fit-content;
+    }
+    .whop-join-button:hover {
+        background: #263397;
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(38, 51, 151, 0.3);
+        border-color: #263397;
+    }
+
+    .whop-join-button:hover .whop-icon {
+        color: #fff !important;
+    }
+
+    .whop-join-button:hover .whop-icon {
+        color: #fff !important;
+    }
+
+    /* Dark theme support */
+    [data-theme="dark"] .download-button {
+        background: #fff;
+        color: #263397;
+        border-color: #263397;
+    }
+
+    [data-theme="dark"] .download-button:hover {
+        background: #263397;
+        color: #fff;
+        border-color: #263397;
+    }
+
+    [data-theme="dark"] .whop-join-button {
+        background: #fff;
+        color: #263397;
+        border-color: #263397;
+    }
+
+    [data-theme="dark"] .whop-join-button:hover {
+        background: #263397;
+        color: #fff;
+        border-color: #263397;
+    }
+
+    [data-theme="dark"] .whop-join-button:hover .whop-icon {
+        color: #fff !important;
+    }
+
+    [data-theme="dark"] .whop-join-button:hover .whop-icon {
+        color: #fff !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .access-hero {
+            padding: 6rem 1rem 3rem;
+        }
+        .access-title {
+            font-size: 2rem;
+        }
+        .buttons-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .cta-container {
+            padding: 2rem 1.5rem;
+        }
+        .cta-title {
+            font-size: 1.5rem;
+        }
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Access Page Hero Section -->
+    <section class="access-hero">
+        <div class="access-container">
+            <div class="access-header">
+                <h1 class="access-title">Success! Here is your kit.</h1>
+                <p class="access-subtitle">Watch the 15-minute training below to get started.</p>
+            </div>
+
+            <!-- Video Embed -->
+            <div class="video-container">
+                <!-- 
+                    VIDEO PLACEHOLDER: Replace the src with your video file
+                    Recommended filename: first-client-kit-training.mp4
+                    File location: static/videos/first-client-kit-training.mp4
+                -->
+                <video controls poster="" style="width: 100%; height: 100%; border-radius: 1.5rem; position: absolute; top: 0; left: 0;">
+                    <source src="{{ url_for('static', filename='videos/Main.mp4') }}" type="video/mp4">
+                    <!-- Fallback for unsupported browsers -->
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="video-overlay">
+                            <h3>Your First Client Kit Training</h3>
+                            <p>15-minute step-by-step guide</p>
+                        </div>
+                    </div>
+                </video>
+            </div>
+
+            <h2 class="resources-title">Your Downloads & Next Step</h2>
+
+            <!-- Download Buttons -->
+            <div class="buttons-container">
+                <!-- 
+                    ACTION ITEM: Replace the '#' with the direct links to your PDF files.
+                -->
+                <a href="#" class="action-button download-button" target="_blank">
+                    <i class="fas fa-list-check"></i>
+                    <span>Download The Checklist</span>
+                </a>
+                <a href="#" class="action-button download-button" target="_blank">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Download The Template</span>
+                </a>
+            </div>
+
+            <!-- Whop Community CTA -->
+            <div class="cta-container">
+                <h3 class="cta-title">Don't Do It Alone. Join The Anipreneur Community.</h3>
+                <p class="cta-text">
+                    Get feedback on your clips, ask me questions in live Q&As, and connect with other Anipreneurs on the same mission. It's 100% free.
+                </p>
+                <!-- 
+                    ACTION ITEM: Replace the '#' with your Whop community join link.
+                -->
+                <a href="https://whop.com/anipreneur" class="action-button whop-join-button" target="_blank">
+                    <i class="fas fa-store" aria-hidden="true"></i>
+                    <span>Join The Free Community</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}Anipreneur - Turn Skills Into Focused Income{% endblock %}
+
+{% block meta_description %}Join Anipreneur's anime-inspired community of multi-skilled entrepreneurs. Learn proven systems to turn your scattered skills into focused income streams with step-by-step guidance and elite mentorship.{% endblock %}
+
+{% block nav_links %}
+<li><a href="#benefits">Community</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="{{ url_for('courses') }}">Courses</a></li>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="compliance-badge">
+                    <i class="fas fa-fire"></i>
+                    Anime Energy + Business Reality
+                </div>
+                <h1 class="hero-title">Turn Scattered Skills Into <span class="hero-subtitle">Focused Income</span></h1>
+                <p class="hero-description">
+                    Anime-inspired mindset meets modern monetization. Join a community built by multi-skilled entrepreneurs who actually do the work—with structure, systems, and support, not just talk.
+                </p>
+                <div class="hero-actions">
+
+                    <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
+                        Join Whop
+                        <i class="fas fa-store" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-card visual-card-main">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Be a Winner</h3>
+                    <p>Real entrepreneurs, real results</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="benefits-container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-users" aria-hidden="true"></i>
+                    COMMUNITY
+                </div>
+                <h2 class="section-title">Free Whop Community</h2>
+                <p class="section-subtitle">Plus Paid Elite Access</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Free Whop Community</h3>
+                    <p>General chat, introductions, resources vault with free Notion boards, anime x business channel, and weekly public threads.</p>
+                </div>
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Anipreneur+ Elite Access</h3>
+                    <p>Private focus rooms (Build, Monetize, Grow), weekly execution challenges, monthly calls, and priority mentorship.</p>
+                </div>
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Monetization Systems</h3>
+                    <p>Step-by-step systems to turn your skills into income, with proven frameworks and DFY tools.</p>
+                </div>
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Affiliate Vault</h3>
+                    <p>Curated tool stack for YouTube, design, code, automation, and productivity with revenue share for contributors.</p>
+                </div>
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Community Wins</h3>
+                    <p>Showcase your achievements, celebrate milestones, and get inspired by other Anipreneur making it happen.</p>
+                </div>
+                <div class="benefit-card loading">
+                    <div class="benefit-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Anime Energy</h3>
+                    <p>Bring that main character energy to your business journey with a community that gets the grind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="section-tag">
+                    <i class="fas fa-fire" aria-hidden="true"></i>
+                    ABOUT Anipreneur
+                </div>
+                <h2>Who we are</h2>
+                <p>We're multi-skilled entrepreneurs who've made the journey from developer to founder to guide. Anipreneur was born from the realization that scattered skills need focused direction.</p>
+                <p>Your journey: <strong>developer → founder → guide</strong>. We've been where you are—juggling multiple skills, trying to turn them into consistent income, needing structure without the corporate BS.</p>
+                <p>Real results, no fluff. Anime energy meets business reality. We're the community that actually does the work and helps you do the same.</p>
+            </div>
+            <div class="about-image">
+                <div class="team-visual">
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' class="team-svg">
+                        <rect width='400' height='300' fill='var(--bg-secondary)'/>
+                        <g transform='translate(200,150)'>
+                            <circle r='60' fill='var(--accent-primary)' opacity='0.1'/>
+                            <circle r='40' fill='var(--accent-primary)' opacity='0.2'/>
+                            <circle r='20' fill='var(--accent-primary)'/>
+                        </g>
+                        <text x='200' y='280' text-anchor='middle' fill='var(--text-secondary)' font-family='Inter' font-size='14'>Anipreneur Community</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item loading">
+                <div class="stat-number">$99</div>
+                <div class="stat-label">Lifetime Access</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Community Members</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Success Stories</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Whop Active</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-crown" aria-hidden="true"></i>
+                    PRICING
+                </div>
+                <h2 class="section-title">Choose Your Path</h2>
+                <p class="section-subtitle">Free Community or Elite Access</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card free-card loading">
+                    <div class="pricing-header">
+                        <div class="pricing-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Free Community</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/forever</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Whop Community Access</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>General Chat & Introductions</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Free Resources Vault</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Anime x Business Channel</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Weekly Public Threads</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Community Wins & Showcases</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('whop') }}" class="pricing-button free-button" aria-label="Join Free Anipreneur Community on Whop">
+                        Join Free Community
+                        <i class="fas fa-store" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="pricing-card elite-card loading">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <div class="pricing-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3>Anipreneur+ Elite</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">99</span>
+                            <span class="period">/lifetime</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Everything in Free</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Private Focus Rooms</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Weekly Execution Challenges</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Monthly Q&A Calls</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Step-by-Step Systems</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Affiliate Vault + DFY Tools</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Priority Mentorship</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check"></i>
+                            <span>Founders Badge Role</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('whop') }}" class="pricing-button elite-button" aria-label="Get Elite Access to Anipreneur+ on Whop">
+                        Get Elite Access (Whop)
+                        <i class="fas fa-store" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intro Video Section -->
+    <section class="intro-video" id="intro">
+        <div class="intro-container">
+            <div class="intro-content">
+                <div class="section-tag">
+                    <i class="fab fa-youtube" aria-hidden="true"></i>
+                    1-MINUTE INTRO
+                </div>
+                <h2>See What Anipreneur Is About</h2>
+                <p>Get the full story in 60 seconds. Who we are, why Anipreneur exists, and how we can help you turn your skills into focused income.</p>
+                <div class="intro-features">
+                    <div class="intro-feature">
+                        <i class="fas fa-play"></i>
+                        <span>Your journey: developer → founder → guide</span>
+                    </div>
+                    <div class="intro-feature">
+                        <i class="fas fa-fire"></i>
+                        <span>Real results, no fluff</span>
+                    </div>
+                    <div class="intro-feature">
+                        <i class="fas fa-users"></i>
+                        <span>Anime energy + business reality</span>
+                    </div>
+                </div>
+            </div>
+            <div class="intro-video-wrapper">
+                <div class="video-placeholder">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="video-overlay">
+                        <h3>1-Minute Anipreneur Intro</h3>
+                        <p>Click to watch on YouTube</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Affiliate Vault Section -->
+    <section class="affiliate-vault" id="vault">
+        <div class="vault-container">
+            <div class="section-header">
+                <div class="section-tag">
+                    <i class="fas fa-link" aria-hidden="true"></i>
+                    AFFILIATE VAULT
+                </div>
+                <h2 class="section-title">Curated Tool Stack</h2>
+                <p class="section-subtitle">Revenue Share Model</p>
+            </div>
+            <div class="vault-access">
+                <div class="access-note">
+                    <i class="fas fa-crown"></i>
+                    <span>Vault access exclusive to Anipreneur+ Elite members</span>
+                </div>
+            </div>
+            <div class="vault-grid">
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h3>YouTube</h3>
+                    <p>Video editing tools, thumbnail creators, analytics platforms, and growth automation.</p>
+                </div>
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Design</h3>
+                    <p>Graphics software, design templates, color palettes, and creative resources.</p>
+                </div>
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Development</h3>
+                    <p>Coding tools, hosting platforms, frameworks, and development resources.</p>
+                </div>
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI & Automation</h3>
+                    <p>AI writing tools, automation platforms, chatbots, and productivity enhancers.</p>
+                </div>
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Marketing</h3>
+                    <p>Email platforms, social media schedulers, analytics tools, and ad managers.</p>
+                </div>
+                <div class="vault-category loading">
+                    <div class="vault-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Productivity</h3>
+                    <p>Project management, time tracking, note-taking apps, and workflow optimization.</p>
+                </div>
+            </div>
+            <div class="vault-action">
+                <a href="{{ url_for('courses') }}" class="cta-button vault-link" aria-label="View All Anipreneur Courses">
+                    View All Courses
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

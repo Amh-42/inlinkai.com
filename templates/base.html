@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Anipreneur{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Turn scattered skills into focused income. Join Anipreneur's anime-inspired community of multi-skilled entrepreneurs with proven systems and support.{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="32x32">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="180x180">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Critical CSS for LCP optimization -->
+    <style>
+        /* Critical hero styles for LCP */
+        .hero {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding-block: clamp(6rem, 15vh, 8rem) 2rem;
+            padding-inline: clamp(1rem, 5vw, 2rem);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+        .hero-container {
+            max-width: min(75rem, calc(100vw - 2rem));
+            margin-inline: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(2rem, 5vw, 4rem);
+            align-items: center;
+        }
+        .hero-title {
+            font-size: clamp(1.75rem, 7vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-block-end: clamp(1rem, 4vw, 2rem);
+            color: #1e293b;
+            font-family: 'Manrope', sans-serif;
+        }
+        .hero-title .hero-subtitle {
+            display: block;
+            background: linear-gradient(135deg, #0084FF 0%, #0066CC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-description {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: #475569;
+            margin-block-end: clamp(2rem, 5vw, 3rem);
+            line-height: 1.7;
+            max-width: 60ch;
+            font-family: 'Manrope', sans-serif;
+        }
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+        .compliance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8fafc;
+            padding-block: 0.5rem;
+            padding-inline: 1rem;
+            border-radius: 2rem;
+            font-size: clamp(0.75rem, 2.5vw, 0.875rem);
+            font-weight: 500;
+            color: #10b981;
+            margin-block-end: clamp(1rem, 4vw, 2rem);
+            border: 1px solid #e2e8f0;
+            font-family: 'Manrope', sans-serif;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        [data-theme="dark"] .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        [data-theme="dark"] .hero-title {
+            color: #f1f5f9;
+        }
+        [data-theme="dark"] .hero-description {
+            color: #e2e8f0;
+        }
+        [data-theme="dark"] .compliance-badge {
+            background: #1e293b;
+            border-color: #334155;
+            color: #34d399;
+        }
+    </style>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body data-theme="light">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo" aria-label="Anipreneur Home">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Anipreneur Logo" style="height: 2rem; width: auto;" width="32" height="32">
+                Anipreneur
+            </a>
+            
+            <div class="nav-center">
+                <ul class="nav-links">
+                    {% block nav_links %}
+                    <li><a href="{{ url_for('index') }}#community">Community</a></li>
+                    <li><a href="{{ url_for('index') }}#about">About</a></li>
+                    <li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+                    <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                    {% endblock %}
+                </ul>
+            </div>
+
+            <div class="nav-actions">
+                <div class="theme-toggle-container">
+                    <input type="checkbox" id="themeToggle" class="theme-toggle-input" aria-label="Toggle dark mode">
+                    <label for="themeToggle" class="theme-toggle-label" aria-label="Dark mode toggle">
+                        <span class="theme-toggle-slider">
+                            <span class="theme-toggle-icon sun">
+                                <i class="fas fa-sun" aria-hidden="true"></i>
+                            </span>
+                            <span class="theme-toggle-icon moon">
+                                <i class="fas fa-moon" aria-hidden="true"></i>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+
+                <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
+                    Join Whop
+                    <i class="fas fa-store" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Open mobile menu" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <ul class="mobile-nav-links">
+                    <li><a href="{{ url_for('index') }}#community">Community</a></li>
+                    <li><a href="{{ url_for('index') }}#about">About</a></li>
+                    <li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+                    <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                </ul>
+                <div class="mobile-theme-toggle">
+                    <div class="mobile-theme-toggle-container">
+                        <span class="mobile-theme-label">Dark Mode</span>
+                        <div class="mobile-theme-toggle-wrapper">
+                            <input type="checkbox" id="mobileThemeToggle" class="theme-toggle-input mobile" aria-label="Toggle dark mode mobile">
+                            <label for="mobileThemeToggle" class="theme-toggle-label mobile" aria-label="Dark mode toggle mobile">
+                                <span class="theme-toggle-slider mobile">
+                                    <span class="theme-toggle-icon sun">
+                                        <i class="fas fa-sun" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="theme-toggle-icon moon">
+                                        <i class="fas fa-moon" aria-hidden="true"></i>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-cta">
+
+                    <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
+                        Join Whop
+                        <i class="fas fa-store" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Logo Row -->
+            <div class="footer-logo">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Anipreneur Logo" width="32" height="32">
+                <span>Anipreneur</span>
+            </div>
+            
+            <!-- Social Links Row -->
+            <div class="footer-social">
+                <a href="{{ url_for('whop') }}" aria-label="Anipreneur Whop Community"><i class="fas fa-store" aria-hidden="true"></i></a>
+                <a href="https://www.youtube.com/@anipreneur" aria-label="Anipreneur YouTube Channel"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/theanipreneur" aria-label="Anipreneur Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            </div>
+            
+            <!-- Copyright Row -->
+            <div class="footer-copyright">
+                <p>&copy; <span id="currentYear"></span> Anipreneur. All rights reserved. Master every income stream.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

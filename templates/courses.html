@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+
+{% block title %}Anipreneur - Money-Making Courses{% endblock %}
+
+{% block meta_description %}Master every income stream with Anipreneur's comprehensive courses. From freelancing to agencies, crypto trading to e-commerce - learn skills that actually make money in today's digital economy.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/courses.css') }}">
+{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ url_for('index') }}#benefits">Community</a></li>
+<li><a href="{{ url_for('index') }}#about">About</a></li>
+<li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+<li><a href="#courses">Courses</a></li>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="compliance-badge loading">
+                    <i class="fas fa-graduation-cap"></i>
+                    Money-Making Education
+                </div>
+                <h1 class="hero-title loading">Master Every <span class="hero-subtitle loading">Income Stream</span></h1>
+
+                <p class="hero-description loading">
+                    From agencies to crypto trading, content creation to e-commerce - learn the skills that actually make money in today's digital economy.
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="courses-showcase">
+                    <a href="#beginner" class="course-card beginner-card">
+                        <div class="card-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4>Beginner</h4>
+                        <p>Start Today</p>
+                    </a>
+                    <a href="#intermediate" class="course-card intermediate-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Intermediate</h4>
+                        <p>Build Skills</p>
+                    </a>
+                    <a href="#advanced" class="course-card advanced-card">
+                        <div class="card-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Advanced</h4>
+                        <p>Scale Up</p>
+                    </a>
+                    <a href="#elite" class="course-card elite-card">
+                        <div class="card-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>Elite</h4>
+                        <p>Master Level</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="courses" id="courses">
+        <div class="container">
+            <div class="courses-container">
+            <!-- Beginner Level -->
+            <div class="course-tier" id="beginner">
+                <div class="tier-header">
+                    <div class="tier-badge beginner">
+                        <i class="fas fa-seedling"></i>
+                        BEGINNER
+                    </div>
+                    <h2>Start Your Journey</h2>
+                    <p>Ground-level strategies anyone can start today</p>
+                </div>
+                <div class="courses-grid">
+                    <!-- Hustling -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <h3 class="course-title">Hustling</h3>
+                        </div>
+                        <p class="course-description">Ground-level money-making strategies that anyone can start today.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Car Detailing & Mobile Services</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Pet Services & Dog Walking</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Flipping Products & Arbitrage</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Local Service Businesses</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Freelancing -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <h3 class="course-title">Freelancing</h3>
+                        </div>
+                        <p class="course-description">Turn your skills into a profitable freelance business with high-paying clients.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Client Acquisition & Retention</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Pricing Strategies & Value-Based Selling</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Project Management & Delivery</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Scaling to Agency Model</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Fitness -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h3 class="course-title">Fitness</h3>
+                        </div>
+                        <p class="course-description">Turn your passion for fitness into a profitable coaching and content business.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Online Personal Training</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Fitness Content Creation</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Supplement & Product Promotion</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Building Fitness Communities</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intermediate Level -->
+            <div class="course-tier" id="intermediate">
+                <div class="tier-header">
+                    <div class="tier-badge intermediate">
+                        <i class="fas fa-chart-line"></i>
+                        INTERMEDIATE
+                    </div>
+                    <h2>Build Your Skills</h2>
+                    <p>Scalable income streams with proven systems</p>
+                </div>
+                <div class="courses-grid">
+                    <!-- Content Creation -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3 class="course-title">Content Creation</h3>
+                        </div>
+                        <p class="course-description">Master the art of creating engaging content that converts viewers into customers.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Video Editing & Post-Production</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Graphic Design & Visual Branding</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Content Strategy & Planning</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Monetization Techniques</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-share-alt"></i>
+                            </div>
+                            <h3 class="course-title">Social Media</h3>
+                        </div>
+                        <p class="course-description">Dominate every platform and build massive followings that generate real income.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>YouTube Channel Growth & Monetization</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>TikTok Viral Content & Creator Fund</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Instagram Business & Influencer Marketing</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>LinkedIn Personal Branding & B2B</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Copywriting -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                            <h3 class="course-title">Copywriting</h3>
+                        </div>
+                        <p class="course-description">Master the art of persuasive writing that sells products and builds brands.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Sales Copy & Email Marketing</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Landing Pages & Conversion Optimization</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Ad Copy & Social Media Content</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Psychology of Persuasion</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- E-Commerce -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3 class="course-title">E-Commerce</h3>
+                        </div>
+                        <p class="course-description">Build profitable online stores and master affiliate marketing strategies.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Shopify Store Setup & Optimization</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Product Research & Sourcing</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Affiliate Marketing & Link Monetization</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Customer Acquisition & Retention</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Level -->
+            <div class="course-tier" id="advanced">
+                <div class="tier-header">
+                    <div class="tier-badge advanced">
+                        <i class="fas fa-rocket"></i>
+                        ADVANCED
+                    </div>
+                    <h2>Scale & Dominate</h2>
+                    <p>High-value skills for serious entrepreneurs</p>
+                </div>
+                <div class="courses-grid">
+                    <!-- Agency -->
+                    <div class="course-category premium-course loading">
+                        <div class="premium-badge">Premium</div>
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3 class="course-title">Agency</h3>
+                        </div>
+                        <p class="course-description">Build and scale profitable agencies with proven systems and frameworks.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>SMMA (Social Media Marketing Agency)</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Paid Advertising & Campaign Management</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Copywriting & Sales Funnels</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Creative Agency & Brand Development</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Consulting -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h3 class="course-title">Consulting</h3>
+                        </div>
+                        <p class="course-description">Package your expertise into high-value consulting services and command premium rates.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Positioning & Niche Selection</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>High-Ticket Sales & Proposals</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Delivery Frameworks & Methodologies</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Building Authority & Thought Leadership</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Crypto Trading -->
+                    <div class="course-category premium-course loading">
+                        <div class="premium-badge">Advanced</div>
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fab fa-bitcoin"></i>
+                            </div>
+                            <h3 class="course-title">Crypto Trading</h3>
+                        </div>
+                        <p class="course-description">Learn professional trading strategies and risk management in the crypto markets.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Technical Analysis & Chart Reading</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Risk Management & Portfolio Theory</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>DeFi Strategies & Yield Farming</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Market Psychology & Trading Mindset</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elite Level -->
+            <div class="course-tier" id="elite">
+                <div class="tier-header">
+                    <div class="tier-badge elite">
+                        <i class="fas fa-crown"></i>
+                        ELITE
+                    </div>
+                    <h2>Master Level</h2>
+                    <p>Elite strategies for building wealth and legacy</p>
+                </div>
+                <div class="courses-grid">
+                    <!-- Business Mastery -->
+                    <div class="course-category premium-course loading">
+                        <div class="premium-badge">Elite</div>
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3 class="course-title">Business Mastery</h3>
+                        </div>
+                        <p class="course-description">Advanced business strategies for scaling and systemizing profitable ventures.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Business Model Innovation</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Team Building & Leadership</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Financial Management & Growth</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Exit Strategies & Acquisitions</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Finance -->
+                    <div class="course-category loading">
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3 class="course-title">Finance</h3>
+                        </div>
+                        <p class="course-description">Master personal and business finance to build lasting wealth and financial freedom.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Investment Strategies & Portfolio Management</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Tax Optimization & Legal Structures</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Cash Flow Management & Budgeting</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Passive Income Streams</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Headquarters V2 -->
+                    <div class="course-category premium-course loading">
+                        <div class="premium-badge">Next Level</div>
+                        <div class="course-header">
+                            <div class="course-icon">
+                                <i class="fas fa-building-flag"></i>
+                            </div>
+                            <h3 class="course-title">Headquarters V2</h3>
+                        </div>
+                        <p class="course-description">The ultimate level-up course for those ready to take the next step in their journey.</p>
+                        <ul class="course-skills">
+                            <li class="skill-item">
+                                <span>Next Step Strategy Development</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Level Up Mindset & Execution</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Elite Network Access</span>
+                            </li>
+                            <li class="skill-item">
+                                <span>Legacy Building Systems</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item loading">
+                <div class="stat-number">13</div>
+                <div class="stat-label">Course Categories</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">60+</div>
+                <div class="stat-label">Specific Skills</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Success Stories</div>
+            </div>
+            <div class="stat-item loading">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Community Support</div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/courses.js') }}"></script>
+{% endblock %}

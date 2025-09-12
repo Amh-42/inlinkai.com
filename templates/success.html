@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Anipreneur+ Elite!{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ url_for('index') }}#benefits">Community</a></li>
+<li><a href="{{ url_for('index') }}#about">About</a></li>
+<li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+<li><a href="{{ url_for('courses') }}">Courses</a></li>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-hero {
+        padding: 8rem 2rem 6rem;
+        background: var(--bg-primary);
+        text-align: center;
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .success-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .success-icon {
+        width: 4rem;
+        height: 4rem;
+        background: var(--accent-gradient);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        animation: checkmark 0.6s ease-in-out;
+    }
+
+    .success-icon i {
+        color: white;
+        font-size: 2rem;
+    }
+
+    .success-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .success-subtitle {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .next-steps {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin: 2rem 0;
+        text-align: left;
+    }
+
+    .next-steps h3 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .step-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+    }
+
+    .step-number {
+        background: var(--accent-gradient);
+        color: white;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        flex-shrink: 0;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    .action-button {
+        background: var(--accent-gradient);
+        color: white;
+        padding: 0.875rem 1.5rem;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .action-button.secondary {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    @keyframes checkmark {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .success-hero {
+            padding: 6rem 1rem 4rem;
+        }
+
+        .success-title {
+            font-size: 2rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .action-button {
+            width: 100%;
+            max-width: 250px;
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Success Hero Section -->
+    <section class="success-hero">
+        <div class="success-container">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            
+            <h1 class="success-title">Welcome to Anipreneur+ Elite!</h1>
+            <p class="success-subtitle">
+                Congratulations! Your payment was successful and you now have lifetime access to all Elite features.
+            </p>
+
+            <div class="next-steps">
+                <h3>What happens next?</h3>
+                <ul class="step-list">
+                    <li class="step-item">
+                        <div class="step-number">1</div>
+                        <div>Check your email for access details and Whop community invite link</div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">2</div>
+                        <div>Join the private Elite channels in our Whop community</div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">3</div>
+                        <div>Introduce yourself and start connecting with other Elite members</div>
+                    </li>
+                    <li class="step-item">
+                        <div class="step-number">4</div>
+                        <div>Access your Founders Badge and explore the Affiliate Vault</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+
+                <a href="{{ url_for('courses') }}" class="action-button secondary">
+                    <i class="fas fa-graduation-cap"></i>
+                    Explore Courses
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
