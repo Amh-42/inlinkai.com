@@ -1,10 +1,13 @@
 import sys
 import os
 
-INTERP = "/home/inlinkff/virtualenv/winorz.inlinkai.com/3.11/bin/python"
-if sys.executable != INTERP:
-    os.execl(INTERP, INTERP, *sys.argv)
+# Add your project directory to Python path
+sys.path.insert(0, os.path.dirname(__file__))
 
-sys.path.insert(0, '/home/inlinkff/winorz.inlinkai.com')
+from app import app
 
-from app import app as application
+# This is the callable that the server expects
+application = app
+
+if __name__ == "__main__":
+    application.run()

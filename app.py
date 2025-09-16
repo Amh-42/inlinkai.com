@@ -70,6 +70,28 @@ def index():
     """Homepage route"""
     return render_template('index.html')
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint for deployment verification"""
+    try:
+        # Test database connection
+        with db.engine.connect() as connection:
+            connection.execute(db.text('SELECT 1'))
+        
+        return jsonify({
+            'status': 'healthy',
+            'database': 'connected',
+            'timestamp': datetime.now().isoformat(),
+            'version': '1.0.0'
+        }), 200
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'database': 'disconnected',
+            'error': str(e),
+            'timestamp': datetime.now().isoformat()
+        }), 500
+
 @app.route('/features')
 def features():
     """Features page route"""

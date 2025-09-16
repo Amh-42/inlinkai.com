@@ -84,7 +84,6 @@ Desktop.ini
 *~
 
 # Local config
-config.py
 
 # Ignore backup HTML files
 index_backup.html
