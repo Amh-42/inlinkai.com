@@ -368,51 +368,6 @@
                 </div>
                 {% endif %}
 
-                <!-- Chrome Extension Approval Card -->
-                <div id="extensionApprovalCard" style="display: none; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 3rem; position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: -20px; right: -20px; font-size: 4rem; opacity: 0.1;">
-                        <i class="fas fa-puzzle-piece"></i>
-                    </div>
-                    <div style="position: relative; z-index: 1;">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <i class="fas fa-chrome" style="font-size: 2rem;"></i>
-                            <div>
-                                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Chrome Extension Connection Request</h3>
-                                <p style="margin: 0; opacity: 0.9; font-size: 0.875rem;">Authorize your Chrome extension to extract LinkedIn data</p>
-                            </div>
-                        </div>
-                        
-                        <div id="extensionRequestDetails" style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <span style="font-weight: 600;">Extension Version:</span>
-                                <span id="extensionVersion">1.0.0</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <span style="font-weight: 600;">Requested:</span>
-                                <span id="extensionRequestTime">Just now</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <span style="font-weight: 600;">Permissions:</span>
-                                <span>LinkedIn Profile Data Extraction</span>
-                            </div>
-                        </div>
-                        
-                        <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.5; font-size: 0.875rem;">
-                            Your InlinkAI Chrome Extension is requesting permission to extract your LinkedIn profile data. This will enable automatic profile optimization and content suggestions.
-                        </p>
-                        
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <button onclick="approveExtension()" class="cta-button" style="background: white; color: #6366f1; border-color: white; font-weight: 600;">
-                                <i class="fas fa-check"></i>
-                                Approve Connection
-                            </button>
-                            <button onclick="denyExtension()" class="cta-button" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
-                                <i class="fas fa-times"></i>
-                                Deny
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Quick Stats -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
@@ -1409,8 +1364,6 @@
     let currentJobId = null;
     let statusCheckInterval = null;
     
-    // Chrome Extension Approval Functionality
-    let extensionCheckInterval = null;
 
     window.connectLinkedIn = function() {
             console.log('connectLinkedIn function called'); // Debug log
@@ -1761,119 +1714,6 @@
         }
     });
     
-    // Chrome Extension Approval Functions
-    window.approveExtension = function() {
-        const approvalCard = document.getElementById('extensionApprovalCard');
-        const approveBtn = approvalCard.querySelector('button[onclick="approveExtension()"]');
-        
-        approveBtn.disabled = true;
-        approveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Approving...';
-        
-        // Send approval to backend
-        fetch('/extension/approve', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'approve'
-            })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                showToast('Extension approved successfully!', 'success');
-                approvalCard.style.display = 'none';
-            } else {
-                showToast(result.error || 'Failed to approve extension', 'error');
-                approveBtn.disabled = false;
-                approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Connection';
-            }
-        })
-        .catch(error => {
-            console.error('Extension approval error:', error);
-            showToast('Failed to approve extension', 'error');
-            approveBtn.disabled = false;
-            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Connection';
-        });
-    };
-    
-    window.denyExtension = function() {
-        const approvalCard = document.getElementById('extensionApprovalCard');
-        
-        // Send denial to backend
-        fetch('/extension/approve', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'deny'
-            })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                showToast('Extension access denied', 'info');
-                approvalCard.style.display = 'none';
-            } else {
-                showToast(result.error || 'Failed to deny extension', 'error');
-            }
-        })
-        .catch(error => {
-            console.error('Extension denial error:', error);
-            showToast('Failed to deny extension', 'error');
-        });
-    };
-    
-    // Check for pending extension approvals
-    function checkExtensionApprovals() {
-        fetch('/extension/pending-approvals')
-            .then(response => response.json())
-            .then(result => {
-                if (result.success && result.approvals && result.approvals.length > 0) {
-                    showExtensionApprovalCard(result.approvals[0]);
-                }
-            })
-            .catch(error => {
-                console.error('Extension approval check error:', error);
-            });
-    }
-    
-    function showExtensionApprovalCard(approval) {
-        const card = document.getElementById('extensionApprovalCard');
-        
-        // Update card details
-        document.getElementById('extensionVersion').textContent = approval.extension_version || '1.0.0';
-        
-        const requestTime = new Date(approval.created_at);
-        const timeAgo = getTimeAgo(requestTime);
-        document.getElementById('extensionRequestTime').textContent = timeAgo;
-        
-        // Show the card
-        card.style.display = 'block';
-    }
-    
-    function getTimeAgo(date) {
-        const now = new Date();
-        const diffMs = now - date;
-        const diffMins = Math.floor(diffMs / 60000);
-        
-        if (diffMins < 1) return 'Just now';
-        if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-        
-        const diffHours = Math.floor(diffMins / 60);
-        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-        
-        const diffDays = Math.floor(diffHours / 24);
-        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-    }
-    
-    // Start checking for extension approvals on page load
-    checkExtensionApprovals();
-    
-    // Check periodically for new approval requests
-    setInterval(checkExtensionApprovals, 30000); // Check every 30 seconds
 </script>
 
 </body>

@@ -47,10 +47,6 @@ def verify_deployment(base_url):
         ('GET', '/static/js/main.js', 200),
         ('GET', '/static/images/logo.svg', 200),
         
-        # Chrome extension endpoints (these might return errors without auth, but shouldn't be 500)
-        ('POST', '/extension/send-otp', [400, 422]),  # Missing data
-        ('POST', '/extension/verify-otp', [400, 422]),  # Missing data
-        ('GET', '/extension/pending-approvals', [401, 403]),  # Not authenticated
     ]
     
     passed = 0
