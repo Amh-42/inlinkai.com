@@ -84,6 +84,7 @@
             top: 40px;
             left: 50%;
             transform: translateX(-50%);
+            box-shadow: 0 8px 32px rgba(0, 132, 255, 0.15);
             width: 85%;
             max-width: 1200px;
             min-width: 300px;
@@ -396,10 +397,10 @@
         }
 
         .cta-button {
-            background: white;
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #0084FF 0%, #0066CC 100%);
+            color: white;
             padding: 0.6rem 1.25rem;
-            border: 1px solid var(--border-color);
+            border: 2px solid transparent;
             border-radius: 2rem;
             font-weight: 500;
             font-size: 0.8rem;
@@ -408,8 +409,92 @@
             align-items: center;
             gap: 0.4rem;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 132, 255, 0.25);
             min-width: fit-content;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .cta-button:hover {
+            background: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button.secondary-button {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+        }
+        
+        .cta-button.secondary-button:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: #0084FF;
+        }
+        
+        [data-theme="dark"] .cta-button {
+            background: #0084FF;
+            color: white;
+            border-color: #0084FF;
+        }
+        
+        [data-theme="dark"] .cta-button:hover {
+            background: #0066CC;
+            border-color: #0066CC;
+            color: white;
+        }
+        
+        [data-theme="dark"] .cta-button.secondary-button {
+            background: transparent;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+        
+        [data-theme="dark"] .cta-button.secondary-button:hover {
+            background: rgba(51, 65, 85, 0.5);
+            color: #f1f5f9;
+            border-color: #0084FF;
+        }
+        
+        /* Logged-in navigation styling */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logout-button {
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+        }
+        
+        .dashboard-button {
+            font-size: 0.8rem;
+        }
+        
+        /* Mobile logged-in navigation */
+        .mobile-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
 
@@ -511,23 +596,29 @@
             padding-inline: clamp(1rem, 5vw, 2rem);
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             position: relative;
-            overflow: visible;
+            overflow: hidden;
             container-type: inline-size; /* Modern container queries */
         }
-
+        
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-                         background: radial-gradient(circle at 30% 20%, rgba(0, 132, 255, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(0, 102, 204, 0.1) 0%, transparent 50%);
-            pointer-events: none;
+            top: -30%;
+            right: -15%;
+            width: 80%;
+            height: 150%;
+            background: linear-gradient(45deg, 
+                rgba(0, 132, 255, 0.04) 0%, 
+                rgba(0, 132, 255, 0.12) 50%, 
+                rgba(0, 132, 255, 0.03) 100%);
+            transform: rotate(12deg);
+            z-index: 0;
+            border-radius: 50%;
         }
-
+        
         .hero-container {
+            position: relative;
+            z-index: 1;
             max-width: min(75rem, calc(100vw - 2rem));
             margin-inline: auto;
             display: grid;
@@ -566,8 +657,11 @@
             font-weight: 700;
             line-height: 1.1;
             margin-block-end: clamp(1rem, 4vw, 2rem);
-            color: var(--text-primary);
-            /* Remove background gradient for faster LCP */
+            background: linear-gradient(135deg, var(--text-primary) 0%, #0084FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* LinkedIn-inspired gradient text */
         }
 
         .hero-title .hero-subtitle {
@@ -735,6 +829,20 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 132, 255, 0.08);
+        }
+        
+        .benefit-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0, 132, 255, 0.1), rgba(0, 132, 255, 0.05));
+            border-radius: 0 1rem 0 100%;
+            z-index: 0;
         }
 
         .benefit-card::before {
@@ -921,11 +1029,33 @@
             transition: all 0.3s ease;
             text-align: center;
             margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0, 132, 255, 0.08);
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #0084FF 0%, 
+                #0066CC 50%, 
+                #0084FF 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 1.5rem 1.5rem 0 0;
         }
 
         .pricing-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: 0 20px 60px rgba(0, 132, 255, 0.15);
+        }
+        
+        .pricing-card:hover::before {
+            opacity: 1;
         }
 
         .elite-card {

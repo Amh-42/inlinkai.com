@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Anipreneur{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Turn scattered skills into focused income. Join Anipreneur's anime-inspired community of multi-skilled entrepreneurs with proven systems and support.{% endblock %}">
+    <title>{% block title %}InlinkAI{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Transform your LinkedIn presence with AI. Get noticed by improving your profile, stay relevant with AI-generated content, and get chosen by connecting with the right prospects at the right time.{% endblock %}">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="32x32">
@@ -113,18 +113,18 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo" aria-label="Anipreneur Home">
-                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Anipreneur Logo" style="height: 2rem; width: auto;" width="32" height="32">
-                Anipreneur
+            <a href="{{ url_for('index') }}" class="logo" aria-label="InlinkAI Home">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="InlinkAI Logo" style="height: 2rem; width: auto;" width="32" height="32">
+                InlinkAI
             </a>
             
             <div class="nav-center">
                 <ul class="nav-links">
                     {% block nav_links %}
-                    <li><a href="{{ url_for('index') }}#community">Community</a></li>
-                    <li><a href="{{ url_for('index') }}#about">About</a></li>
+                    <li><a href="{{ url_for('features') }}">Features</a></li>
+                    <li><a href="{{ url_for('index') }}#how-it-works">How It Works</a></li>
                     <li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
-                    <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('index') }}#about">About</a></li>
                     {% endblock %}
                 </ul>
             </div>
@@ -144,10 +144,21 @@
                     </label>
                 </div>
 
-                <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
-                    Join Whop
-                    <i class="fas fa-store" aria-hidden="true"></i>
-                </a>
+                {% if is_logged_in %}
+                    <a href="{{ url_for('dashboard') }}" class="cta-button dashboard-button" aria-label="Go to Dashboard">
+                        Dashboard
+                        <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="cta-button secondary-button logout-button" aria-label="Logout">
+                        Logout
+                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="cta-button login-button" aria-label="Login to InlinkAI">
+                        Login
+                        <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                    </a>
+                {% endif %}
             </div>
 
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Open mobile menu" aria-expanded="false">
@@ -156,10 +167,10 @@
 
             <div class="mobile-menu" id="mobileMenu">
                 <ul class="mobile-nav-links">
-                    <li><a href="{{ url_for('index') }}#community">Community</a></li>
-                    <li><a href="{{ url_for('index') }}#about">About</a></li>
+                    <li><a href="{{ url_for('features') }}">Features</a></li>
+                    <li><a href="{{ url_for('index') }}#how-it-works">How It Works</a></li>
                     <li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
-                    <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('index') }}#about">About</a></li>
                 </ul>
                 <div class="mobile-theme-toggle">
                     <div class="mobile-theme-toggle-container">
@@ -180,11 +191,21 @@
                     </div>
                 </div>
                 <div class="mobile-cta">
-
-                    <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
-                        Join Whop
-                        <i class="fas fa-store" aria-hidden="true"></i>
-                    </a>
+                    {% if is_logged_in %}
+                        <a href="{{ url_for('dashboard') }}" class="cta-button dashboard-button" aria-label="Go to Dashboard">
+                            Dashboard
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                        </a>
+                        <a href="{{ url_for('logout') }}" class="cta-button secondary-button logout-button" aria-label="Logout" style="margin-top: 0.5rem;">
+                            Logout
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="cta-button login-button" aria-label="Login to InlinkAI">
+                            Login
+                            <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -200,20 +221,20 @@
         <div class="footer-container">
             <!-- Logo Row -->
             <div class="footer-logo">
-                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Anipreneur Logo" width="32" height="32">
-                <span>Anipreneur</span>
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="InlinkAI Logo" width="32" height="32">
+                <span>InlinkAI</span>
             </div>
             
             <!-- Social Links Row -->
             <div class="footer-social">
-                <a href="{{ url_for('whop') }}" aria-label="Anipreneur Whop Community"><i class="fas fa-store" aria-hidden="true"></i></a>
-                <a href="https://www.youtube.com/@anipreneur" aria-label="Anipreneur YouTube Channel"><i class="fab fa-youtube" aria-hidden="true"></i></a>
-                <a href="https://www.instagram.com/theanipreneur" aria-label="Anipreneur Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://linkedin.com/company/inlinkai" aria-label="InlinkAI LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+                <a href="https://twitter.com/inlinkai" aria-label="InlinkAI Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                <a href="mailto:support@inlinkai.com" aria-label="InlinkAI Support Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
             </div>
             
             <!-- Copyright Row -->
             <div class="footer-copyright">
-                <p>&copy; <span id="currentYear"></span> Anipreneur. All rights reserved. Master every income stream.</p>
+                <p>&copy; <span id="currentYear"></span> InlinkAI. All rights reserved. Get noticed. Get relevant. Get chosen.</p>
             </div>
         </div>
     </footer>

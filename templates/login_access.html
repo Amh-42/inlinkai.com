@@ -1,0 +1,677 @@
+{% extends "base.html" %}
+
+{% block title %}InlinkAI - Check Your Email{% endblock %}
+
+{% block meta_description %}Check your email for your InlinkAI login code. Enter the 6-digit code to access your dashboard and start optimizing your LinkedIn presence.{% endblock %}
+
+{% block nav_links %}
+<li><a href="{{ url_for('features') }}">Features</a></li>
+<li><a href="{{ url_for('index') }}#how-it-works">How It Works</a></li>
+<li><a href="{{ url_for('index') }}#pricing">Pricing</a></li>
+<li><a href="{{ url_for('index') }}#about">About</a></li>
+{% endblock %}
+
+{% block content %}
+    <!-- Login Access Section -->
+    <section class="hero" id="login-access">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="login-card">
+                    <div class="compliance-badge">
+                        <i class="fas fa-envelope-open"></i>
+                        Check Your Email
+                    </div>
+                    <h1 class="hero-title">Login Code <span class="hero-subtitle">Sent!</span></h1>
+                    <p class="hero-description">
+                        We've sent a 6-digit login code to your email address. Check your inbox (and spam folder) and enter the code below to access your InlinkAI dashboard.
+                    </p>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <!-- OTP Input Form -->
+                    <form id="otpForm" method="POST" action="{{ url_for('login_access') }}" class="otp-form">
+                        <h3 class="otp-title">Enter Your Login Code</h3>
+                        <div id="otp-container" class="otp-container">
+                            <input type="text" class="otp-input" data-index="0" maxlength="1" inputmode="numeric">
+                            <input type="text" class="otp-input" data-index="1" maxlength="1" inputmode="numeric">
+                            <input type="text" class="otp-input" data-index="2" maxlength="1" inputmode="numeric">
+                            <input type="text" class="otp-input" data-index="3" maxlength="1" inputmode="numeric">
+                            <input type="text" class="otp-input" data-index="4" maxlength="1" inputmode="numeric">
+                            <input type="text" class="otp-input" data-index="5" maxlength="1" inputmode="numeric">
+                        </div>
+                        <input type="hidden" id="otpValue" name="otp" value="">
+                        <button 
+                            type="submit" 
+                            id="verifyButton"
+                            class="cta-button login-button full-width"
+                            disabled
+                        >
+                            <span id="buttonText">Access Dashboard</span>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    
+                    <!-- Help Section -->
+                    <div class="help-section">
+                        <h4 class="help-title">Didn't receive the code?</h4>
+                        <p class="help-text">
+                            Check your spam folder or wait a few minutes for the email to arrive.
+                        </p>
+                        <div class="help-actions">
+                            <a href="{{ url_for('login') }}" class="cta-button secondary-button">
+                                <i class="fas fa-redo"></i>
+                                Resend Code
+                            </a>
+                            <a href="mailto:support@inlinkai.com" class="cta-button secondary-button">
+                                <i class="fas fa-envelope"></i>
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Features Preview -->
+                    <div class="features-preview">
+                        <h4 class="features-title">What you'll get access to:</h4>
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <i class="fas fa-eye"></i>
+                                <div class="feature-content">
+                                    <div class="feature-name">Get Noticed</div>
+                                    <div class="feature-desc">Profile optimization</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-bullseye"></i>
+                                <div class="feature-content">
+                                    <div class="feature-name">Stay Relevant</div>
+                                    <div class="feature-desc">AI content creation</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-handshake"></i>
+                                <div class="feature-content">
+                                    <div class="feature-name">Get Chosen</div>
+                                    <div class="feature-desc">Smart prospecting</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Ensure CSS custom properties are available */
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+    }
+    
+    [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --border-color: #334155;
+    }
+    
+    .login-card {
+        max-width: 600px;
+        width: 100%;
+        margin: 0 auto;
+        background: var(--bg-primary);
+        border-radius: 16px;
+        padding: 3rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        border: 1px solid var(--border-color, #e2e8f0);
+        text-align: center;
+        position: relative;
+        backdrop-filter: blur(10px);
+    }
+    
+    /* Override hero container for better centering on desktop */
+    .hero-container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 160px);
+        padding: 2rem;
+    }
+    
+    .hero-content {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    [data-theme="dark"] .login-card {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: #334155;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .otp-form {
+        background: var(--bg-secondary);
+        padding: 2rem;
+        border-radius: 12px;
+        margin: 2rem 0;
+        border: 1px solid var(--border-color, #e2e8f0);
+    }
+    
+    [data-theme="dark"] .otp-form {
+        background: rgba(51, 65, 85, 0.5);
+        border-color: #334155;
+    }
+    
+    .otp-title {
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+    
+    .otp-container {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    
+    .otp-input {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .otp-input:focus {
+        outline: none;
+        border-color: #0084FF;
+        box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .otp-input:not(:placeholder-shown) {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.05);
+    }
+    
+    [data-theme="dark"] .otp-input {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: #334155;
+        color: #f1f5f9;
+    }
+    
+    [data-theme="dark"] .otp-input:focus {
+        border-color: #0084FF;
+        background: rgba(30, 41, 59, 1);
+    }
+    
+    [data-theme="dark"] .otp-input:not(:placeholder-shown) {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.1);
+    }
+    
+    .full-width {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        opacity: 0.5;
+        cursor: not-allowed;
+        transition: all 0.3s ease;
+    }
+    
+    .full-width:not(:disabled) {
+        opacity: 1;
+        cursor: pointer;
+    }
+    
+    /* Fix button styling for dark mode */
+    .cta-button.login-button {
+        background: #0084FF;
+        color: white;
+        border: 2px solid #0084FF;
+    }
+    
+    .cta-button.login-button:hover {
+        background: #0066CC;
+        border-color: #0066CC;
+        color: white;
+    }
+    
+    .cta-button.login-button:disabled {
+        background: #94a3b8;
+        border-color: #94a3b8;
+        color: white;
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    [data-theme="dark"] .cta-button.login-button {
+        background: #0084FF;
+        color: white;
+        border-color: #0084FF;
+    }
+    
+    [data-theme="dark"] .cta-button.login-button:hover {
+        background: #0066CC;
+        border-color: #0066CC;
+        color: white;
+    }
+    
+    [data-theme="dark"] .cta-button.login-button:disabled {
+        background: #64748b;
+        border-color: #64748b;
+        color: #e2e8f0;
+        opacity: 0.5;
+    }
+    
+    .cta-button.secondary-button {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--border-color, #e2e8f0);
+    }
+    
+    .cta-button.secondary-button:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: #0084FF;
+    }
+    
+    [data-theme="dark"] .cta-button.secondary-button {
+        background: transparent;
+        color: #f1f5f9;
+        border-color: #334155;
+    }
+    
+    [data-theme="dark"] .cta-button.secondary-button:hover {
+        background: rgba(51, 65, 85, 0.5);
+        color: #f1f5f9;
+        border-color: #0084FF;
+    }
+    
+    /* Fix compliance badge for dark mode */
+    .compliance-badge {
+        background: rgba(0, 132, 255, 0.1);
+        color: #0084FF;
+        border: 1px solid rgba(0, 132, 255, 0.2);
+    }
+    
+    [data-theme="dark"] .compliance-badge {
+        background: rgba(0, 132, 255, 0.1);
+        color: #60a5fa;
+        border: 1px solid rgba(0, 132, 255, 0.2);
+    }
+    
+    /* Ensure hero title and subtitle have proper contrast */
+    .hero-title {
+        color: var(--text-primary);
+    }
+    
+    .hero-subtitle {
+        background: linear-gradient(135deg, #0084FF 0%, #0066CC 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    [data-theme="dark"] .hero-subtitle {
+        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-description {
+        color: var(--text-secondary);
+    }
+    
+    .help-section {
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color, #e2e8f0);
+    }
+    
+    [data-theme="dark"] .help-section {
+        border-top-color: #334155;
+    }
+    
+    .help-title {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+    
+    .help-text {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .help-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .help-actions .cta-button {
+        font-size: 0.875rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .features-preview {
+        margin-top: 3rem;
+        text-align: left;
+    }
+    
+    .features-title {
+        text-align: center;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+    
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.25rem;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        border: 1px solid var(--border-color, #e2e8f0);
+        transition: all 0.3s ease;
+    }
+    
+    .feature-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    [data-theme="dark"] .feature-item {
+        background: rgba(51, 65, 85, 0.5);
+        border-color: #334155;
+    }
+    
+    [data-theme="dark"] .feature-item:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .feature-item i {
+        color: #0084FF;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+    
+    .feature-content {
+        flex: 1;
+    }
+    
+    .feature-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+        font-size: 0.875rem;
+    }
+    
+    .feature-desc {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+    }
+    
+    .alert {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 1rem 1.25rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.875rem;
+        border: 1px solid #fecaca;
+    }
+    
+    .alert i {
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+    
+    [data-theme="dark"] .alert {
+        background: rgba(220, 38, 38, 0.1);
+        color: #fca5a5;
+        border-color: rgba(220, 38, 38, 0.2);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .login-card {
+            margin: 1rem;
+            padding: 2rem 1.5rem;
+        }
+        
+        .otp-container {
+            gap: 0.375rem;
+            padding: 0 1rem;
+            justify-content: space-between;
+        }
+        
+        .otp-input {
+            width: calc((100vw - 4rem) / 6 - 0.375rem);
+            min-width: 35px;
+            max-width: 45px;
+            height: 45px;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+        
+        .help-actions {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .feature-item {
+            justify-content: center;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const otpValue = document.getElementById('otpValue');
+    const verifyButton = document.getElementById('verifyButton');
+    const buttonText = document.getElementById('buttonText');
+    const otpForm = document.getElementById('otpForm');
+    
+    // Focus first input on page load
+    otpInputs[0].focus();
+    
+    // Handle input events
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', function(e) {
+            const value = e.target.value;
+            
+            // Only allow numbers
+            if (!/^\d$/.test(value) && value !== '') {
+                e.target.value = '';
+                return;
+            }
+            
+            // Auto-move to next input
+            if (value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+            
+            // Update hidden input and check completion
+            updateOTPValue();
+            checkCompletion();
+        });
+        
+        input.addEventListener('keydown', function(e) {
+            // Handle backspace
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+            
+            // Handle arrow keys
+            if (e.key === 'ArrowLeft' && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+            if (e.key === 'ArrowRight' && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+            
+            // Handle Enter key to submit when complete
+            if (e.key === 'Enter' && isComplete()) {
+                e.preventDefault();
+                submitOTP();
+            }
+        });
+        
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text');
+            
+            // Clean the pasted data (only numbers)
+            const numbers = pastedData.replace(/\D/g, '');
+            
+            // Fill inputs with pasted numbers
+            for (let i = 0; i < Math.min(numbers.length, otpInputs.length); i++) {
+                otpInputs[i].value = numbers[i];
+            }
+            
+            // Focus the next empty input or the last input
+            const nextEmptyIndex = Math.min(numbers.length, otpInputs.length - 1);
+            otpInputs[nextEmptyIndex].focus();
+            
+            // Update hidden input and check completion
+            updateOTPValue();
+            checkCompletion();
+        });
+        
+        input.addEventListener('focus', function() {
+            this.style.borderColor = '#0084FF';
+        });
+        
+        input.addEventListener('blur', function() {
+            this.style.borderColor = '#e2e8f0';
+        });
+    });
+    
+    function updateOTPValue() {
+        const otp = Array.from(otpInputs).map(input => input.value).join('');
+        otpValue.value = otp;
+    }
+    
+    function checkCompletion() {
+        if (isComplete()) {
+            enableSubmit();
+            // Auto-submit after a short delay (optional)
+            setTimeout(() => {
+                if (isComplete()) {
+                    submitOTP();
+                }
+            }, 500);
+        } else {
+            disableSubmit();
+        }
+    }
+    
+    function isComplete() {
+        return Array.from(otpInputs).every(input => input.value.length === 1);
+    }
+    
+    function enableSubmit() {
+        verifyButton.disabled = false;
+        verifyButton.style.opacity = '1';
+        verifyButton.style.cursor = 'pointer';
+    }
+    
+    function disableSubmit() {
+        verifyButton.disabled = true;
+        verifyButton.style.opacity = '0.5';
+        verifyButton.style.cursor = 'not-allowed';
+    }
+    
+    function submitOTP() {
+        if (!isComplete()) return;
+        
+        // Show loading state
+        buttonText.textContent = 'Verifying...';
+        verifyButton.disabled = true;
+        
+        // Add loading spinner
+        const spinner = document.createElement('i');
+        spinner.className = 'fas fa-spinner fa-spin';
+        verifyButton.querySelector('i').replaceWith(spinner);
+        
+        // Submit the form
+        otpForm.submit();
+    }
+    
+    // Handle form submission
+    otpForm.addEventListener('submit', function(e) {
+        if (!isComplete()) {
+            e.preventDefault();
+            alert('Please enter the complete 6-digit code.');
+            return;
+        }
+        
+        submitOTP();
+    });
+    
+    // Handle button click
+    verifyButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        submitOTP();
+    });
+});
+</script>
+{% endblock %}

@@ -1,100 +1,117 @@
 {% extends "base.html" %}
 
-{% block title %}Anipreneur - Turn Skills Into Focused Income{% endblock %}
+{% block title %}InlinkAI - Transform Your LinkedIn Presence with AI{% endblock %}
 
-{% block meta_description %}Join Anipreneur's anime-inspired community of multi-skilled entrepreneurs. Learn proven systems to turn your scattered skills into focused income streams with step-by-step guidance and elite mentorship.{% endblock %}
+{% block meta_description %}Get noticed, stay relevant, and get chosen on LinkedIn. InlinkAI uses cutting-edge AI to improve your profile visibility, create engaging content, and connect you with the right prospects at the right time.{% endblock %}
 
 {% block nav_links %}
-<li><a href="#benefits">Community</a></li>
-<li><a href="#about">About</a></li>
+<li><a href="{{ url_for('features') }}">Features</a></li>
+<li><a href="#how-it-works">How It Works</a></li>
 <li><a href="#pricing">Pricing</a></li>
-<li><a href="{{ url_for('courses') }}">Courses</a></li>
+<li><a href="#about">About</a></li>
 {% endblock %}
 
 {% block content %}
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="position: fixed; top: 80px; right: 20px; z-index: 1000;">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}" style="background: {% if category == 'success' %}#10b981{% else %}#dc2626{% endif %}; color: white; padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.5rem; min-width: 300px;">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-container">
             <div class="hero-content">
                 <div class="compliance-badge">
-                    <i class="fas fa-fire"></i>
-                    Anime Energy + Business Reality
+                    <i class="fab fa-linkedin"></i>
+                    AI-Powered LinkedIn Growth
                 </div>
-                <h1 class="hero-title">Turn Scattered Skills Into <span class="hero-subtitle">Focused Income</span></h1>
+                <h1 class="hero-title">Get Noticed. Get Relevant. <span class="hero-subtitle">Get Chosen.</span></h1>
                 <p class="hero-description">
-                    Anime-inspired mindset meets modern monetization. Join a community built by multi-skilled entrepreneurs who actually do the work—with structure, systems, and support, not just talk.
+                    Transform your LinkedIn presence with cutting-edge AI. Improve your profile visibility, create engaging content that converts, and connect with prospects who are ready to work with you.
                 </p>
                 <div class="hero-actions">
-
-                    <a href="{{ url_for('whop') }}" class="cta-button whop-button" aria-label="Join Whop Community">
-                        Join Whop
-                        <i class="fas fa-store" aria-hidden="true"></i>
+                    <a href="{{ url_for('login') }}" class="cta-button login-button" aria-label="Start Free Trial">
+                        Start Free Trial
+                        <i class="fas fa-rocket" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{ url_for('features') }}" class="cta-button secondary-button" aria-label="View Features">
+                        View Features
+                        <i class="fas fa-play" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
             <div class="hero-visual">
                 <div class="visual-card visual-card-main">
-                    <i class="fas fa-trophy"></i>
-                    <h3>Be a Winner</h3>
-                    <p>Real entrepreneurs, real results</p>
+                    <i class="fab fa-linkedin"></i>
+                    <h3>AI-Powered Growth</h3>
+                    <p>Transform your LinkedIn presence</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" id="benefits">
+    <!-- How It Works Section -->
+    <section class="benefits" id="how-it-works">
         <div class="benefits-container">
             <div class="section-header">
                 <div class="section-tag">
-                    <i class="fas fa-users" aria-hidden="true"></i>
-                    COMMUNITY
+                    <i class="fas fa-cogs" aria-hidden="true"></i>
+                    HOW IT WORKS
                 </div>
-                <h2 class="section-title">Free Whop Community</h2>
-                <p class="section-subtitle">Plus Paid Elite Access</p>
+                <h2 class="section-title">Three Steps to LinkedIn Success</h2>
+                <p class="section-subtitle">Get noticed, stay relevant, and get chosen</p>
             </div>
             <div class="benefits-grid">
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-eye"></i>
                     </div>
-                    <h3>Free Whop Community</h3>
-                    <p>General chat, introductions, resources vault with free Notion boards, anime x business channel, and weekly public threads.</p>
+                    <h3>Get Noticed</h3>
+                    <p>AI optimizes your LinkedIn profile - headline, about section, experience, and featured content to improve visibility and attract your ideal prospects.</p>
                 </div>
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-crown"></i>
+                        <i class="fas fa-bullseye"></i>
                     </div>
-                    <h3>Anipreneur+ Elite Access</h3>
-                    <p>Private focus rooms (Build, Monetize, Grow), weekly execution challenges, monthly calls, and priority mentorship.</p>
+                    <h3>Stay Relevant</h3>
+                    <p>Create engaging, topic-specific content that positions you as an expert. Our AI generates posts, articles, and updates tailored to your niche and audience.</p>
                 </div>
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-tools"></i>
+                        <i class="fas fa-handshake"></i>
                     </div>
-                    <h3>Monetization Systems</h3>
-                    <p>Step-by-step systems to turn your skills into income, with proven frameworks and DFY tools.</p>
+                    <h3>Get Chosen</h3>
+                    <p>Connect with prospects who engage with your content and match your ideal customer profile. Reach out at the perfect moment when they're most interested.</p>
                 </div>
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-link"></i>
+                        <i class="fas fa-robot"></i>
                     </div>
-                    <h3>Affiliate Vault</h3>
-                    <p>Curated tool stack for YouTube, design, code, automation, and productivity with revenue share for contributors.</p>
+                    <h3>AI-Powered</h3>
+                    <p>State-of-the-art artificial intelligence analyzes LinkedIn trends, optimizes your content strategy, and identifies high-potential connections.</p>
                 </div>
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-trophy"></i>
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Community Wins</h3>
-                    <p>Showcase your achievements, celebrate milestones, and get inspired by other Anipreneur making it happen.</p>
+                    <h3>Data-Driven</h3>
+                    <p>Track your performance with detailed analytics. See which content performs best, monitor profile views, and measure connection success rates.</p>
                 </div>
                 <div class="benefit-card loading">
                     <div class="benefit-icon">
-                        <i class="fas fa-fire"></i>
+                        <i class="fas fa-clock"></i>
                     </div>
-                    <h3>Anime Energy</h3>
-                    <p>Bring that main character energy to your business journey with a community that gets the grind.</p>
+                    <h3>Time-Saving</h3>
+                    <p>Automate your LinkedIn strategy. Spend minutes, not hours, maintaining a professional presence that generates real business opportunities.</p>
                 </div>
             </div>
         </div>
@@ -105,13 +122,13 @@
         <div class="about-container">
             <div class="about-content">
                 <div class="section-tag">
-                    <i class="fas fa-fire" aria-hidden="true"></i>
-                    ABOUT Anipreneur
+                    <i class="fas fa-rocket" aria-hidden="true"></i>
+                    ABOUT InlinkAI
                 </div>
-                <h2>Who we are</h2>
-                <p>We're multi-skilled entrepreneurs who've made the journey from developer to founder to guide. Anipreneur was born from the realization that scattered skills need focused direction.</p>
-                <p>Your journey: <strong>developer → founder → guide</strong>. We've been where you are—juggling multiple skills, trying to turn them into consistent income, needing structure without the corporate BS.</p>
-                <p>Real results, no fluff. Anime energy meets business reality. We're the community that actually does the work and helps you do the same.</p>
+                <h2>Why InlinkAI?</h2>
+                <p>Independent professionals struggle to stand out on LinkedIn. You have the skills, but your profile gets lost in the noise. Your content doesn't reach the right people. You're missing opportunities because prospects can't find you.</p>
+                <p>InlinkAI solves this with <strong>cutting-edge AI technology</strong> that transforms how you show up on LinkedIn. We help you get noticed by the right people, stay relevant with engaging content, and get chosen by ideal prospects.</p>
+                <p>Stop being invisible. Start being chosen. InlinkAI gives you the AI-powered tools that top professionals use to dominate LinkedIn and win more business.</p>
             </div>
             <div class="about-image">
                 <div class="team-visual">
@@ -122,7 +139,7 @@
                             <circle r='40' fill='var(--accent-primary)' opacity='0.2'/>
                             <circle r='20' fill='var(--accent-primary)'/>
                         </g>
-                        <text x='200' y='280' text-anchor='middle' fill='var(--text-secondary)' font-family='Inter' font-size='14'>Anipreneur Community</text>
+                        <text x='200' y='280' text-anchor='middle' fill='var(--text-secondary)' font-family='Inter' font-size='14'>InlinkAI Platform</text>
                     </svg>
                 </div>
             </div>
@@ -133,20 +150,20 @@
     <section class="stats">
         <div class="stats-container">
             <div class="stat-item loading">
-                <div class="stat-number">$99</div>
-                <div class="stat-label">Lifetime Access</div>
+                <div class="stat-number">3x</div>
+                <div class="stat-label">More Profile Views</div>
             </div>
             <div class="stat-item loading">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">Community Members</div>
+                <div class="stat-number">5x</div>
+                <div class="stat-label">Higher Engagement</div>
             </div>
             <div class="stat-item loading">
-                <div class="stat-number">100+</div>
-                <div class="stat-label">Success Stories</div>
+                <div class="stat-number">200%</div>
+                <div class="stat-label">More Connections</div>
             </div>
             <div class="stat-item loading">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Whop Active</div>
+                <div class="stat-number">80%</div>
+                <div class="stat-label">Time Saved</div>
             </div>
         </div>
     </section>
@@ -156,54 +173,54 @@
         <div class="pricing-container">
             <div class="section-header">
                 <div class="section-tag">
-                    <i class="fas fa-crown" aria-hidden="true"></i>
+                    <i class="fas fa-tags" aria-hidden="true"></i>
                     PRICING
                 </div>
-                <h2 class="section-title">Choose Your Path</h2>
-                <p class="section-subtitle">Free Community or Elite Access</p>
+                <h2 class="section-title">Choose Your Plan</h2>
+                <p class="section-subtitle">Start free, upgrade when ready</p>
             </div>
             <div class="pricing-grid">
                 <div class="pricing-card free-card loading">
                     <div class="pricing-header">
                         <div class="pricing-icon">
-                            <i class="fas fa-users"></i>
+                            <i class="fas fa-seedling"></i>
                         </div>
-                        <h3>Free Community</h3>
+                        <h3>Free Trial</h3>
                         <div class="price">
                             <span class="currency">$</span>
                             <span class="amount">0</span>
-                            <span class="period">/forever</span>
+                            <span class="period">/14 days</span>
                         </div>
                     </div>
                     <div class="pricing-features">
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Whop Community Access</span>
+                            <span>Profile optimization</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>General Chat & Introductions</span>
+                            <span>5 AI-generated posts</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Free Resources Vault</span>
+                            <span>Basic analytics</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Anime x Business Channel</span>
+                            <span>Connection insights</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Weekly Public Threads</span>
+                            <span>Email support</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Community Wins & Showcases</span>
+                            <span>No credit card required</span>
                         </div>
                     </div>
-                    <a href="{{ url_for('whop') }}" class="pricing-button free-button" aria-label="Join Free Anipreneur Community on Whop">
-                        Join Free Community
-                        <i class="fas fa-store" aria-hidden="true"></i>
+                    <a href="{{ url_for('login') }}" class="pricing-button free-button" aria-label="Start Free Trial">
+                        Start Free Trial
+                        <i class="fas fa-rocket" aria-hidden="true"></i>
                     </a>
                 </div>
 
@@ -213,11 +230,11 @@
                         <div class="pricing-icon">
                             <i class="fas fa-crown"></i>
                         </div>
-                        <h3>Anipreneur+ Elite</h3>
+                        <h3>Pro Plan</h3>
                         <div class="price">
                             <span class="currency">$</span>
-                            <span class="amount">99</span>
-                            <span class="period">/lifetime</span>
+                            <span class="amount">29</span>
+                            <span class="period">/month</span>
                         </div>
                     </div>
                     <div class="pricing-features">
@@ -227,64 +244,64 @@
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Private Focus Rooms</span>
+                            <span>Unlimited AI content</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Weekly Execution Challenges</span>
+                            <span>Advanced analytics</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Monthly Q&A Calls</span>
+                            <span>Smart prospect targeting</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Step-by-Step Systems</span>
+                            <span>Automated outreach</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Affiliate Vault + DFY Tools</span>
+                            <span>Priority support</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Priority Mentorship</span>
+                            <span>Content scheduling</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-check"></i>
-                            <span>Founders Badge Role</span>
+                            <span>API access</span>
                         </div>
                     </div>
-                    <a href="{{ url_for('whop') }}" class="pricing-button elite-button" aria-label="Get Elite Access to Anipreneur+ on Whop">
-                        Get Elite Access (Whop)
-                        <i class="fas fa-store" aria-hidden="true"></i>
+                    <a href="{{ url_for('login') }}" class="pricing-button elite-button" aria-label="Upgrade to Pro Plan">
+                        Start Pro Trial
+                        <i class="fas fa-crown" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Intro Video Section -->
-    <section class="intro-video" id="intro">
+    <!-- Demo Video Section -->
+    <section class="intro-video" id="demo">
         <div class="intro-container">
             <div class="intro-content">
                 <div class="section-tag">
-                    <i class="fab fa-youtube" aria-hidden="true"></i>
-                    1-MINUTE INTRO
+                    <i class="fas fa-play-circle" aria-hidden="true"></i>
+                    PRODUCT DEMO
                 </div>
-                <h2>See What Anipreneur Is About</h2>
-                <p>Get the full story in 60 seconds. Who we are, why Anipreneur exists, and how we can help you turn your skills into focused income.</p>
+                <h2>See InlinkAI In Action</h2>
+                <p>Watch how InlinkAI transforms your LinkedIn presence in under 2 minutes. See real profile optimizations, AI-generated content, and prospect identification in action.</p>
                 <div class="intro-features">
                     <div class="intro-feature">
-                        <i class="fas fa-play"></i>
-                        <span>Your journey: developer → founder → guide</span>
+                        <i class="fas fa-eye"></i>
+                        <span>Profile optimization demo</span>
                     </div>
                     <div class="intro-feature">
-                        <i class="fas fa-fire"></i>
-                        <span>Real results, no fluff</span>
+                        <i class="fas fa-robot"></i>
+                        <span>AI content generation</span>
                     </div>
                     <div class="intro-feature">
-                        <i class="fas fa-users"></i>
-                        <span>Anime energy + business reality</span>
+                        <i class="fas fa-bullseye"></i>
+                        <span>Smart prospect targeting</span>
                     </div>
                 </div>
             </div>
@@ -294,81 +311,12 @@
                         <i class="fas fa-play"></i>
                     </div>
                     <div class="video-overlay">
-                        <h3>1-Minute Anipreneur Intro</h3>
-                        <p>Click to watch on YouTube</p>
+                        <h3>InlinkAI Platform Demo</h3>
+                        <p>See how it works</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Affiliate Vault Section -->
-    <section class="affiliate-vault" id="vault">
-        <div class="vault-container">
-            <div class="section-header">
-                <div class="section-tag">
-                    <i class="fas fa-link" aria-hidden="true"></i>
-                    AFFILIATE VAULT
-                </div>
-                <h2 class="section-title">Curated Tool Stack</h2>
-                <p class="section-subtitle">Revenue Share Model</p>
-            </div>
-            <div class="vault-access">
-                <div class="access-note">
-                    <i class="fas fa-crown"></i>
-                    <span>Vault access exclusive to Anipreneur+ Elite members</span>
-                </div>
-            </div>
-            <div class="vault-grid">
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fab fa-youtube"></i>
-                    </div>
-                    <h3>YouTube</h3>
-                    <p>Video editing tools, thumbnail creators, analytics platforms, and growth automation.</p>
-                </div>
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fas fa-palette"></i>
-                    </div>
-                    <h3>Design</h3>
-                    <p>Graphics software, design templates, color palettes, and creative resources.</p>
-                </div>
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Development</h3>
-                    <p>Coding tools, hosting platforms, frameworks, and development resources.</p>
-                </div>
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <h3>AI & Automation</h3>
-                    <p>AI writing tools, automation platforms, chatbots, and productivity enhancers.</p>
-                </div>
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h3>Marketing</h3>
-                    <p>Email platforms, social media schedulers, analytics tools, and ad managers.</p>
-                </div>
-                <div class="vault-category loading">
-                    <div class="vault-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <h3>Productivity</h3>
-                    <p>Project management, time tracking, note-taking apps, and workflow optimization.</p>
-                </div>
-            </div>
-            <div class="vault-action">
-                <a href="{{ url_for('courses') }}" class="cta-button vault-link" aria-label="View All Anipreneur Courses">
-                    View All Courses
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                </a>
-            </div>
-        </div>
-    </section>
 {% endblock %}

@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InlinkAI - Dashboard</title>
+    <meta name="description" content="Your InlinkAI dashboard. Access all three core features: profile optimization, AI content creation, and smart prospecting tools.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="32x32">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.ico') }}" sizes="180x180">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Dashboard Navigation -->
+    <nav class="dashboard-nav">
+        <div class="dashboard-nav-container">
+            <!-- Logo -->
+            <div class="dashboard-logo">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="InlinkAI Logo" width="32" height="32">
+                <span>InlinkAI</span>
+            </div>
+            
+            <!-- Right side actions -->
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Theme Toggle -->
+                <div class="theme-toggle-container">
+                    <input type="checkbox" id="themeToggle" class="theme-toggle-input" aria-label="Toggle dark mode">
+                    <label for="themeToggle" class="theme-toggle-label" aria-label="Dark mode toggle">
+                        <span class="theme-toggle-slider">
+                            <span class="theme-toggle-icon sun">
+                                <i class="fas fa-sun" aria-hidden="true"></i>
+                            </span>
+                            <span class="theme-toggle-icon moon">
+                                <i class="fas fa-moon" aria-hidden="true"></i>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown">
+                <button class="profile-trigger" onclick="toggleProfileDropdown()" aria-label="User menu">
+                    <div class="profile-avatar">
+                        {{ user_email[0].upper() if user_email else 'U' }}
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                
+                <div class="profile-menu" id="profileMenu">
+                    <div class="profile-info">
+                        <div class="profile-name">{{ user_email.split('@')[0] if user_email else 'User' }}</div>
+                        <div class="profile-email">{{ user_email if user_email else 'user@example.com' }}</div>
+                    </div>
+                    <div class="profile-divider"></div>
+                    <a href="#settings" class="profile-menu-item" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                    <a href="#profile" class="profile-menu-item" onclick="showSection('profile')">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                    <div class="profile-divider"></div>
+                    <a href="{{ url_for('logout') }}" class="profile-menu-item logout-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout" style="display: flex; min-height: calc(100vh - 70px); margin-top: 70px;">
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar" style="width: 280px; background: var(--bg-secondary); border-right: 1px solid var(--border-color); padding: 2rem 0; position: fixed; height: calc(100vh - 70px); overflow-y: auto; top: 70px;">
+            <!-- User Profile Section -->
+            <div style="padding: 0 1.5rem 2rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #0084FF 0%, #0066CC 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.125rem;">
+                        {{ user_email[0].upper() if user_email else 'U' }}
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: var(--text-primary); font-size: 0.875rem; margin-bottom: 0.25rem;">
+                            {{ user_email.split('@')[0] if user_email else 'User' }}
+                        </div>
+                        <div style="color: var(--text-secondary); font-size: 0.75rem;">Free Trial • 14 days left</div>
+                    </div>
+                </div>
+                <a href="{{ url_for('index') }}#pricing" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 0.5rem;">
+                    <i class="fas fa-crown"></i>
+                    Upgrade to Pro
+                </a>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav style="padding: 1.5rem 0;">
+                <div style="padding: 0 1.5rem; margin-bottom: 1rem;">
+                    <h3 style="color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">Dashboard</h3>
+                </div>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li>
+                        <a href="#overview" class="sidebar-link active" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-home" style="width: 16px;"></i>
+                            Overview
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#profile" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-eye" style="width: 16px;"></i>
+                            Get Noticed
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#content" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-bullseye" style="width: 16px;"></i>
+                            Stay Relevant
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#prospects" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-handshake" style="width: 16px;"></i>
+                            Get Chosen
+                        </a>
+                    </li>
+                </ul>
+
+                <div style="padding: 0 1.5rem; margin: 1.5rem 0 1rem 0;">
+                    <h3 style="color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">Analytics</h3>
+                </div>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li>
+                        <a href="#analytics" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-chart-line" style="width: 16px;"></i>
+                            Performance
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#insights" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-lightbulb" style="width: 16px;"></i>
+                            Insights
+                        </a>
+                    </li>
+                </ul>
+
+                <div style="padding: 0 1.5rem; margin: 1.5rem 0 1rem 0;">
+                    <h3 style="color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">Account</h3>
+                </div>
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <li>
+                        <a href="#settings" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-cog" style="width: 16px;"></i>
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('logout') }}" class="sidebar-link" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: all 0.2s ease;">
+                            <i class="fas fa-sign-out-alt" style="width: 16px;"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main" style="flex: 1; margin-left: 280px; padding: 2rem;">
+            <div style="max-width: 100%; width: 100%;">
+            
+            <!-- Overview Section -->
+            <div id="overview" class="dashboard-section">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Dashboard Overview</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Track your LinkedIn growth and AI-powered results</p>
+                </div>
+                
+                <!-- LinkedIn Connection Status -->
+                {% if not linkedin_profile %}
+                <div style="background: linear-gradient(135deg, #0077B5 0%, #005885 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 3rem; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; font-size: 4rem; opacity: 0.1;">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fab fa-linkedin" style="font-size: 2rem;"></i>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Connect Your LinkedIn Account</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.875rem;">Required to access InlinkAI's powerful features</p>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.5;">
+                            Connect your LinkedIn account to unlock profile optimization, content creation, and smart prospecting tools. Your data stays secure and private.
+                        </p>
+                        <!-- URL Input Form -->
+                        <div id="linkedinForm">
+                            <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/yourusername" 
+                                   style="width: 100%; max-width: 400px; padding: 0.75rem; border-radius: 6px; border: none; margin-bottom: 1rem; color: #333; font-size: 0.875rem;">
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <button onclick="connectLinkedIn()" id="connectBtn" class="cta-button" style="background: white; color: #0077B5; border-color: white; font-weight: 600;">
+                                    <i class="fab fa-linkedin"></i>
+                                    Connect LinkedIn Account
+                                </button>
+                                <button class="cta-button secondary-button" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Learn More
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Modern Progress Display -->
+                        <div id="progressDisplay" style="display: none;">
+                            <div style="text-align: center; padding: 2rem;">
+                                <!-- Circular Progress -->
+                                <div style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                                    <svg width="120" height="120" style="transform: rotate(-90deg);">
+                                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="8"/>
+                                        <circle id="progressCircle" cx="60" cy="60" r="50" fill="none" stroke="#00C851" stroke-width="8" 
+                                                stroke-dasharray="314.16" stroke-dashoffset="314.16" 
+                                                style="transition: stroke-dashoffset 0.5s ease;"/>
+                                    </svg>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                        <div id="progressPercent" style="font-size: 1.5rem; font-weight: 700; color: white;">0%</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Progress Steps -->
+                                <div id="progressSteps" style="margin-bottom: 1rem;">
+                                    <div class="progress-step" id="step1" style="margin-bottom: 0.5rem; opacity: 0.6;">
+                                        <i class="fas fa-circle-notch fa-spin" style="margin-right: 0.5rem;"></i>
+                                        <span>Initializing connection...</span>
+                                    </div>
+                                    <div class="progress-step" id="step2" style="margin-bottom: 0.5rem; opacity: 0.4;">
+                                        <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>
+                                        <span>Opening LinkedIn profile...</span>
+                                    </div>
+                                    <div class="progress-step" id="step3" style="margin-bottom: 0.5rem; opacity: 0.4;">
+                                        <i class="fas fa-search" style="margin-right: 0.5rem;"></i>
+                                        <span>Extracting profile data...</span>
+                                    </div>
+                                    <div class="progress-step" id="step4" style="margin-bottom: 0.5rem; opacity: 0.4;">
+                                        <i class="fas fa-database" style="margin-right: 0.5rem;"></i>
+                                        <span>Saving to your account...</span>
+                                    </div>
+                                </div>
+                                
+                                <div id="progressMessage" style="font-size: 0.875rem; opacity: 0.9; color: white;">
+                                    Starting LinkedIn profile extraction...
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Success Display -->
+                        <div id="successDisplay" style="display: none;">
+                            <div style="text-align: center; padding: 2rem;">
+                                <!-- Success Animation -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="width: 80px; height: 80px; margin: 0 auto; background: #00C851; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-check" style="font-size: 2rem; color: white;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: white;">
+                                    LinkedIn Connected Successfully!
+                                </div>
+                                <div style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 1.5rem; color: white;">
+                                    Your profile data has been imported and is ready for AI optimization.
+                                </div>
+                                
+                                <!-- Extracted Data Preview -->
+                                <div id="extractedDataPreview" style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; text-align: left;">
+                                    <div style="font-weight: 600; margin-bottom: 0.5rem; color: white;">Profile Data Imported:</div>
+                                    <div id="dataPreviewContent" style="font-size: 0.875rem; opacity: 0.9; color: white;"></div>
+                                </div>
+                                
+                                <button onclick="location.reload()" class="cta-button" style="background: white; color: #0077B5; border-color: white; font-weight: 600;">
+                                    <i class="fas fa-sync-alt"></i>
+                                    View Updated Profile
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Error Display -->
+                        <div id="errorDisplay" style="display: none;">
+                            <div style="text-align: center; padding: 2rem;">
+                                <!-- Error Animation -->
+                                <div style="margin-bottom: 1.5rem;">
+                                    <div style="width: 80px; height: 80px; margin: 0 auto; background: #ff6b6b; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-times" style="font-size: 2rem; color: white;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: white;">
+                                    Connection Failed
+                                </div>
+                                <div id="errorMessage" style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 1.5rem; color: white;"></div>
+                                
+                                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                    <button onclick="resetLinkedInForm()" class="cta-button" style="background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3); color: white;">
+                                        <i class="fas fa-redo"></i>
+                                        Try Again
+                                    </button>
+                                    <button onclick="showManualImport()" class="cta-button" style="background: white; color: #0077B5; border-color: white;">
+                                        <i class="fas fa-upload"></i>
+                                        Manual Import
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <!-- LinkedIn Connected Status -->
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 3rem; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; font-size: 4rem; opacity: 0.1;">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-check-circle" style="font-size: 2rem;"></i>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">LinkedIn Connected</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.875rem;">Your profile is connected and optimized</p>
+                            </div>
+                        </div>
+                        {% if linkedin_profile.full_name %}
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            {% if linkedin_profile.profile_picture_url %}
+                            <img src="{{ linkedin_profile.profile_picture_url }}" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                            {% endif %}
+                            <div>
+                                <div style="font-weight: 600; font-size: 1.1rem;">{{ linkedin_profile.full_name }}</div>
+                                {% if linkedin_profile.headline %}
+                                <div style="opacity: 0.9; font-size: 0.875rem;">{{ linkedin_profile.headline }}</div>
+                                {% endif %}
+                                {% if linkedin_profile.company %}
+                                <div style="opacity: 0.8; font-size: 0.75rem;">{{ linkedin_profile.company }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="showSection('profile')" class="cta-button" style="background: white; color: #10b981; border-color: white; font-weight: 600;">
+                                <i class="fas fa-user-edit"></i>
+                                Optimize Profile
+                            </button>
+                            <button onclick="showSection('content')" class="cta-button" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                                <i class="fas fa-pen"></i>
+                                Create Content
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Chrome Extension Approval Card -->
+                <div id="extensionApprovalCard" style="display: none; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 3rem; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; font-size: 4rem; opacity: 0.1;">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-chrome" style="font-size: 2rem;"></i>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.25rem; font-weight: 700;">Chrome Extension Connection Request</h3>
+                                <p style="margin: 0; opacity: 0.9; font-size: 0.875rem;">Authorize your Chrome extension to extract LinkedIn data</p>
+                            </div>
+                        </div>
+                        
+                        <div id="extensionRequestDetails" style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600;">Extension Version:</span>
+                                <span id="extensionVersion">1.0.0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: 600;">Requested:</span>
+                                <span id="extensionRequestTime">Just now</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 600;">Permissions:</span>
+                                <span>LinkedIn Profile Data Extraction</span>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.5; font-size: 0.875rem;">
+                            Your InlinkAI Chrome Extension is requesting permission to extract your LinkedIn profile data. This will enable automatic profile optimization and content suggestions.
+                        </p>
+                        
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="approveExtension()" class="cta-button" style="background: white; color: #6366f1; border-color: white; font-weight: 600;">
+                                <i class="fas fa-check"></i>
+                                Approve Connection
+                            </button>
+                            <button onclick="denyExtension()" class="cta-button" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                                <i class="fas fa-times"></i>
+                                Deny
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0084FF;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-eye" style="font-size: 1.5rem; color: #0084FF;"></i>
+                        <h3 style="margin: 0; color: var(--text-primary);">Profile Views</h3>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">{{ stats.profile_views if stats else '1,247' }}</div>
+                    <div style="color: #10b981; font-size: 0.875rem;">↗ +23% this week</div>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #10b981;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: #10b981;"></i>
+                        <h3 style="margin: 0; color: var(--text-primary);">Engagement Rate</h3>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">{{ stats.engagement_rate if stats else '8.5%' }}</div>
+                    <div style="color: #10b981; font-size: 0.875rem;">↗ +2.1% this week</div>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-users" style="font-size: 1.5rem; color: #f59e0b;"></i>
+                        <h3 style="margin: 0; color: var(--text-primary);">New Connections</h3>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">{{ stats.connections_added if stats else '42' }}</div>
+                    <div style="color: #10b981; font-size: 0.875rem;">↗ +12 this week</div>
+                </div>
+                
+                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #8b5cf6;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-paper-plane" style="font-size: 1.5rem; color: #8b5cf6;"></i>
+                        <h3 style="margin: 0; color: var(--text-primary);">Messages Sent</h3>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem;">{{ stats.messages_sent if stats else '156' }}</div>
+                    <div style="color: #10b981; font-size: 0.875rem;">↗ +34 this week</div>
+                </div>
+            </div>
+
+            <!-- Main Features Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+                
+                <!-- Get Noticed -->
+                <div class="feature-card" style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-eye" style="font-size: 1.5rem; color: #0084FF;"></i>
+                        <h2 style="margin: 0; color: var(--text-primary);">Get Noticed</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Optimize your LinkedIn profile for maximum visibility and impact.</p>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-size: 0.875rem; color: var(--text-secondary);">Profile Optimization</span>
+                            <span style="font-size: 0.875rem; color: var(--text-secondary);">85%</span>
+                        </div>
+                        <div class="progress-bg" style="background: var(--border-color); height: 8px; border-radius: 4px; overflow: hidden;">
+                            <div style="background: #0084FF; height: 100%; width: 85%; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="cta-button" style="flex: 1;">
+                            <i class="fas fa-edit"></i>
+                            Optimize Profile
+                        </button>
+                        <button class="cta-button secondary-button">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stay Relevant -->
+                <div class="feature-card" style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-bullseye" style="font-size: 1.5rem; color: #10b981;"></i>
+                        <h2 style="margin: 0; color: var(--text-primary);">Stay Relevant</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Create engaging content that positions you as an industry expert.</p>
+                    
+                    <div class="suggestion-box" style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
+                        <div class="suggestion-label" style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Next post suggestion:</div>
+                        <div class="suggestion-text" style="font-weight: 600; color: var(--text-primary);">"5 AI trends that will reshape [your industry] in 2025"</div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="cta-button" style="flex: 1;">
+                            <i class="fas fa-magic"></i>
+                            Generate Content
+                        </button>
+                        <button class="cta-button secondary-button">
+                            <i class="fas fa-calendar"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Get Chosen -->
+                <div class="feature-card" style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <i class="fas fa-handshake" style="font-size: 1.5rem; color: #f59e0b;"></i>
+                        <h2 style="margin: 0; color: var(--text-primary);">Get Chosen</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Connect with prospects who are ready to work with you.</p>
+                    
+                    <div class="prospects-box" style="background: #fef3c7; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #fed7aa;">
+                        <div class="prospects-label" style="font-size: 0.875rem; color: #92400e; margin-bottom: 0.5rem;">Hot prospects identified:</div>
+                        <div class="prospects-text" style="font-weight: 600; color: #92400e;">12 people engaged with your recent post</div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="cta-button" style="flex: 1;">
+                            <i class="fas fa-search"></i>
+                            Find Prospects
+                        </button>
+                        <button class="cta-button secondary-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            <!-- Get Noticed Section -->
+            <div id="profile" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Get Noticed</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Optimize your LinkedIn profile to attract the right opportunities</p>
+                </div>
+
+                <!-- Profile Optimization Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Headline Optimizer -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-heading" style="color: #0084FF; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Headline Optimizer</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Create compelling headlines that get you noticed by recruiters and clients</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-magic"></i>
+                            Optimize Headline
+                        </button>
+                    </div>
+
+                    <!-- About Section -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-user" style="color: #10b981; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">About Section</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Craft a powerful about section that converts visitors into connections</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-edit"></i>
+                            Improve About
+                        </button>
+                    </div>
+
+                    <!-- Experience -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-briefcase" style="color: #f59e0b; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Experience</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Optimize your work experience to showcase your expertise</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-tools"></i>
+                            Enhance Experience
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stay Relevant Section -->
+            <div id="content" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Stay Relevant</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Create engaging content that positions you as an industry expert</p>
+                </div>
+
+                <!-- Content Creation Tools -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- AI Post Generator -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-robot" style="color: #0084FF; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">AI Post Generator</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Generate engaging LinkedIn posts tailored to your industry and audience</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-plus"></i>
+                            Create Post
+                        </button>
+                    </div>
+
+                    <!-- Content Calendar -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-calendar-alt" style="color: #10b981; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Content Calendar</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Plan and schedule your content for consistent engagement</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-calendar"></i>
+                            View Calendar
+                        </button>
+                    </div>
+
+                    <!-- Topic Ideas -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-lightbulb" style="color: #f59e0b; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Topic Ideas</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Discover trending topics and ideas for your next viral post</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-search"></i>
+                            Get Ideas
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Get Chosen Section -->
+            <div id="prospects" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Get Chosen</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Connect with prospects who are ready to work with you</p>
+                </div>
+
+                <!-- Prospecting Tools -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Lead Finder -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-search" style="color: #0084FF; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Lead Finder</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Find prospects who match your ideal client profile</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-target"></i>
+                            Find Leads
+                        </button>
+                    </div>
+
+                    <!-- Engagement Tracker -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-heart" style="color: #10b981; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Engagement Tracker</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Track who engages with your content and identify warm prospects</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-chart-line"></i>
+                            View Engagement
+                        </button>
+                    </div>
+
+                    <!-- Outreach Templates -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-paper-plane" style="color: #f59e0b; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--text-primary);">Outreach Templates</h3>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">AI-powered message templates that get responses</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-edit"></i>
+                            Create Messages
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Performance Analytics</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Track your LinkedIn growth and optimization results</p>
+                </div>
+
+                <!-- Analytics Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Growth Chart -->
+                    <div style="grid-column: 1 / -1; background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Profile Growth</h3>
+                        <div style="height: 200px; background: var(--bg-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color);">
+                            <div style="text-align: center; color: var(--text-secondary);">
+                                <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                                <p style="margin: 0;">Analytics chart will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Performing Posts -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Top Posts</h3>
+                        <div style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                            <i class="fas fa-trophy" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p style="margin: 0;">Your best performing content</p>
+                        </div>
+                    </div>
+
+                    <!-- Engagement Trends -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Engagement</h3>
+                        <div style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                            <i class="fas fa-users" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p style="margin: 0;">Audience engagement insights</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Section -->
+            <div id="insights" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">AI Insights</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Personalized recommendations to grow your LinkedIn presence</p>
+                </div>
+
+                <!-- Insights Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Weekly Recommendations -->
+                    <div style="grid-column: 1 / -1; background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">This Week's Recommendations</h3>
+                        <div style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                            <i class="fas fa-brain" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p style="margin: 0;">AI-powered insights and recommendations</p>
+                        </div>
+                    </div>
+
+                    <!-- Competitor Analysis -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Industry Trends</h3>
+                        <div style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                            <i class="fas fa-trending-up" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p style="margin: 0;">What's working in your industry</p>
+                        </div>
+                    </div>
+
+                    <!-- Optimization Score -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Profile Score</h3>
+                        <div style="color: var(--text-secondary); text-align: center; padding: 2rem;">
+                            <i class="fas fa-percentage" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p style="margin: 0;">Your optimization progress</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="dashboard-section" style="display: none;">
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="color: var(--text-primary); font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0;">Settings</h1>
+                    <p style="color: var(--text-secondary); margin: 0;">Manage your account and preferences</p>
+                </div>
+
+                <!-- Settings Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Profile Settings -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Profile Settings</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Update your account information and preferences</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-user-cog"></i>
+                            Edit Profile
+                        </button>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Notifications</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">Manage your email and push notification preferences</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-bell"></i>
+                            Manage Notifications
+                        </button>
+                    </div>
+
+                    <!-- Billing -->
+                    <div style="background: var(--bg-secondary); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h3 style="margin: 0 0 1rem 0; color: var(--text-primary);">Billing</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">View your subscription and payment information</p>
+                        <button class="cta-button" style="width: 100%;">
+                            <i class="fas fa-credit-card"></i>
+                            View Billing
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coming Soon Notice -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin-top: 3rem;">
+                <i class="fas fa-rocket" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.8;"></i>
+                <h2 style="margin: 0 0 1rem 0;">Dashboard Coming Soon!</h2>
+                <p style="margin: 0 0 1.5rem 0; opacity: 0.9;">This is a preview of your InlinkAI dashboard. The full functionality with all three features will be available in the complete version.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="{{ url_for('features') }}" class="cta-button" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;">
+                        <i class="fas fa-info-circle"></i>
+                        Learn About Features
+                    </a>
+                    <a href="{{ url_for('index') }}#pricing" class="cta-button" style="background: white; color: #667eea; border-color: white;">
+                        <i class="fas fa-crown"></i>
+                        View Pricing
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+<style>
+    /* Ensure CSS custom properties are available */
+    :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+    }
+    
+    [data-theme="dark"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --border-color: #334155;
+    }
+    
+    /* Dashboard Navigation */
+    .dashboard-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--border-color);
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+    
+    .dashboard-nav-container {
+        max-width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+    }
+    
+    .dashboard-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--text-primary);
+    }
+    
+    /* Profile Dropdown */
+    .profile-dropdown {
+        position: relative;
+    }
+    
+    .profile-trigger {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+        color: var(--text-primary);
+    }
+    
+    .profile-trigger:hover {
+        background: var(--bg-secondary);
+    }
+    
+    .profile-avatar {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, #0084FF 0%, #0066CC 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    
+    .profile-menu {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        z-index: 1001;
+    }
+    
+    .profile-menu.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .profile-info {
+        padding: 1rem 1rem 0.5rem;
+    }
+    
+    .profile-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.875rem;
+    }
+    
+    .profile-email {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+    
+    .profile-divider {
+        height: 1px;
+        background: var(--border-color);
+        margin: 0.5rem 0;
+    }
+    
+    .profile-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-primary) !important;
+        text-decoration: none !important;
+        transition: background-color 0.2s ease;
+        font-size: 0.875rem;
+    }
+    
+    .profile-menu-item:visited {
+        color: var(--text-primary) !important;
+        text-decoration: none !important;
+    }
+    
+    .profile-menu-item:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary) !important;
+        text-decoration: none !important;
+    }
+    
+    .profile-menu-item.logout-item {
+        color: #dc2626 !important;
+    }
+    
+    .profile-menu-item.logout-item:visited {
+        color: #dc2626 !important;
+    }
+    
+    .profile-menu-item.logout-item:hover {
+        background: rgba(220, 38, 38, 0.1);
+        color: #dc2626 !important;
+    }
+    
+    [data-theme="dark"] .dashboard-nav {
+        background: var(--bg-primary);
+        border-bottom-color: var(--border-color);
+    }
+    
+    [data-theme="dark"] .profile-menu {
+        background: var(--bg-primary);
+        border-color: var(--border-color);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Use exact same button styling as navigation */
+    .cta-button {
+        background: #0084FF;
+        color: white;
+        padding: 0.6rem 1.25rem;
+        border: 2px solid #0084FF;
+        border-radius: 2rem;
+        font-weight: 500;
+        font-size: 0.8rem;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        justify-content: center;
+    }
+    
+    .cta-button:hover {
+        background: #0066CC;
+        border-color: #0066CC;
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .cta-button.secondary-button {
+        background: transparent;
+        color: var(--text-primary);
+        border: 2px solid var(--border-color);
+    }
+    
+    .cta-button.secondary-button:hover {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: #0084FF;
+    }
+    
+    [data-theme="dark"] .cta-button {
+        background: #0084FF;
+        color: white;
+        border-color: #0084FF;
+    }
+    
+    [data-theme="dark"] .cta-button:hover {
+        background: #0066CC;
+        border-color: #0066CC;
+        color: white;
+    }
+    
+    [data-theme="dark"] .cta-button.secondary-button {
+        background: transparent;
+        color: #f1f5f9;
+        border-color: #334155;
+    }
+    
+    [data-theme="dark"] .cta-button.secondary-button:hover {
+        background: rgba(51, 65, 85, 0.5);
+        color: #f1f5f9;
+        border-color: #0084FF;
+    }
+    
+    /* Fix card backgrounds and borders for dark mode */
+    .feature-card,
+    .card-container {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+    
+    /* Fix progress bar for dark mode */
+    .progress-bg {
+        background: var(--border-color) !important;
+    }
+    
+    [data-theme="dark"] .progress-bg {
+        background: #374151 !important;
+    }
+    
+    /* Fix notification boxes for dark mode */
+    .notification-box {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+    
+    /* Fix "Stay Relevant" suggestion box specifically */
+    .suggestion-box {
+        background: var(--bg-secondary) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    [data-theme="dark"] .suggestion-box {
+        background: rgba(51, 65, 85, 0.5) !important;
+        border: 1px solid #334155 !important;
+    }
+    
+    .suggestion-box .suggestion-label {
+        color: var(--text-secondary) !important;
+    }
+    
+    .suggestion-box .suggestion-text {
+        color: var(--text-primary) !important;
+    }
+    
+    /* Fix "Get Chosen" hot prospects box */
+    .prospects-box {
+        background: var(--bg-secondary) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    [data-theme="dark"] .prospects-box {
+        background: rgba(120, 53, 15, 0.2) !important;
+        border: 1px solid rgba(120, 53, 15, 0.3) !important;
+    }
+    
+    .prospects-box .prospects-label {
+        color: #92400e !important;
+    }
+    
+    [data-theme="dark"] .prospects-box .prospects-label {
+        color: #fbbf24 !important;
+    }
+    
+    .prospects-box .prospects-text {
+        color: #92400e !important;
+    }
+    
+    [data-theme="dark"] .prospects-box .prospects-text {
+        color: #fbbf24 !important;
+    }
+    
+    /* Sidebar styling - Reset all default link styles */
+    .sidebar-link {
+        color: var(--text-secondary) !important;
+        text-decoration: none !important;
+        border-right: none !important;
+        background: transparent !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.75rem !important;
+        padding: 0.75rem 1.5rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .sidebar-link:visited {
+        color: var(--text-secondary) !important;
+        text-decoration: none !important;
+    }
+    
+    .sidebar-link:hover {
+        color: var(--text-primary) !important;
+        background: rgba(0, 132, 255, 0.05) !important;
+        text-decoration: none !important;
+    }
+    
+    .sidebar-link.active {
+        color: var(--text-primary) !important;
+        background: rgba(0, 132, 255, 0.05) !important;
+        border-right: 3px solid #0084FF !important;
+        text-decoration: none !important;
+    }
+    
+    [data-theme="dark"] .sidebar-link {
+        color: var(--text-secondary) !important;
+    }
+    
+    [data-theme="dark"] .sidebar-link:visited {
+        color: var(--text-secondary) !important;
+    }
+    
+    [data-theme="dark"] .sidebar-link:hover {
+        color: #f1f5f9 !important;
+        background: rgba(0, 132, 255, 0.1) !important;
+    }
+    
+    [data-theme="dark"] .sidebar-link.active {
+        color: #f1f5f9 !important;
+        background: rgba(0, 132, 255, 0.1) !important;
+        border-right: 3px solid #0084FF !important;
+    }
+    
+    /* Desktop layout optimizations */
+    @media (min-width: 1025px) {
+        .dashboard-main {
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            max-width: calc(100vw - 280px);
+        }
+        
+        .dashboard-sidebar {
+            width: 280px;
+            position: fixed;
+            left: 0;
+            top: 70px;
+            height: calc(100vh - 70px);
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            margin-top: 70px;
+        }
+    }
+    
+    /* Responsive design for sidebar */
+    @media (max-width: 1024px) {
+        .dashboard-sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .dashboard-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .dashboard-main {
+            margin-left: 0 !important;
+            padding: 1.5rem !important;
+        }
+        
+        .sidebar-toggle {
+            display: block !important;
+            position: fixed;
+            top: 85px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+    }
+    
+    .sidebar-toggle {
+        display: none;
+    }
+    
+    /* Dashboard section transitions */
+    .dashboard-section {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Toast animations */
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+</style>
+<script>
+// Ensure the script runs immediately when the page loads
+(function() {
+    console.log('Dashboard script initializing...');
+
+    // Sidebar toggle functionality
+    window.toggleSidebar = function() {
+        const sidebar = document.querySelector('.dashboard-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('open');
+        }
+    }
+
+    // Profile dropdown functionality
+    window.toggleProfileDropdown = function() {
+        const menu = document.getElementById('profileMenu');
+        if (menu) {
+            menu.classList.toggle('show');
+        }
+    }
+
+    // Close profile dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.querySelector('.profile-dropdown');
+        const menu = document.getElementById('profileMenu');
+        
+        if (dropdown && menu && !dropdown.contains(event.target)) {
+            menu.classList.remove('show');
+        }
+    });
+
+    // Section and sidebar management
+    window.showSection = function(sectionId) {
+        console.log('Showing section:', sectionId);
+        
+        // Hide all sections
+        const sections = document.querySelectorAll('.dashboard-section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show target section
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+            console.log('Section displayed:', sectionId);
+        } else {
+            console.error('Section not found:', sectionId);
+        }
+        
+        // Update active sidebar link
+        const links = document.querySelectorAll('.sidebar-link');
+        links.forEach(link => {
+            link.classList.remove('active');
+            // Reset any inline styles that might interfere
+            link.style.removeProperty('color');
+            link.style.removeProperty('background');
+            link.style.removeProperty('border-right');
+            
+            if (link.getAttribute('href') === '#' + sectionId) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Initialize when DOM is ready
+    function initDashboard() {
+        console.log('Initializing dashboard');
+        
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        console.log('Found sidebar links:', sidebarLinks.length);
+        
+        // Show initial section (overview by default)
+        const currentHash = window.location.hash || '#overview';
+        const currentSection = currentHash.replace('#', '') || 'overview';
+        showSection(currentSection);
+
+        // Add click handlers for sidebar links
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const sectionId = href.replace('#', '');
+                    showSection(sectionId);
+                    window.location.hash = href;
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth <= 1024) {
+                        const sidebar = document.querySelector('.dashboard-sidebar');
+                        if (sidebar) sidebar.classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('hashchange', function() {
+            const sectionId = window.location.hash.replace('#', '') || 'overview';
+            showSection(sectionId);
+        });
+    }
+
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const sidebar = document.querySelector('.dashboard-sidebar');
+        const toggle = document.querySelector('.sidebar-toggle');
+        
+        if (window.innerWidth <= 1024 && sidebar && toggle) {
+            if (!sidebar.contains(event.target) && !toggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        const sidebar = document.querySelector('.dashboard-sidebar');
+        if (sidebar && window.innerWidth > 1024) {
+            sidebar.classList.remove('open');
+        }
+    });
+
+    // LinkedIn Connection Functionality (Global scope)
+    let currentJobId = null;
+    let statusCheckInterval = null;
+    
+    // Chrome Extension Approval Functionality
+    let extensionCheckInterval = null;
+
+    window.connectLinkedIn = function() {
+            console.log('connectLinkedIn function called'); // Debug log
+            const urlInput = document.getElementById('linkedinUrl');
+            let url = urlInput.value.trim();
+            
+            if (!url) {
+                showToast('Please enter your LinkedIn profile URL', 'error');
+                return;
+            }
+            
+            // Auto-correct common URL formats
+            if (url.startsWith('linkedin.com/in/')) {
+                url = 'https://' + url;
+            } else if (!url.startsWith('http')) {
+                url = 'https://' + url;
+            }
+            
+            if (!url.includes('linkedin.com/in/')) {
+                showToast('Please enter a valid LinkedIn profile URL (linkedin.com/in/username)', 'error');
+                return;
+            }
+            
+            // Show progress display with animation
+            document.getElementById('linkedinForm').style.display = 'none';
+            document.getElementById('progressDisplay').style.display = 'block';
+            document.getElementById('successDisplay').style.display = 'none';
+            document.getElementById('errorDisplay').style.display = 'none';
+            
+            // Initialize progress
+            updateProgress(0, 'Initializing connection...');
+            updateProgressStep(1, true);
+            
+            // Start connection
+            fetch('/connect_linkedin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    linkedin_url: url
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    currentJobId = data.job_id;
+                    updateProgress(15, 'Connection started successfully...');
+                    setTimeout(() => startStatusChecking(), 1000);
+                } else {
+                    showError(data.error || 'Failed to start LinkedIn connection');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Network error. Please try again.');
+            });
+        };
+        
+        function startStatusChecking() {
+            if (!currentJobId) return;
+            
+            statusCheckInterval = setInterval(() => {
+                checkJobStatus();
+            }, 2000); // Check every 2 seconds
+        }
+        
+        function checkJobStatus() {
+            if (!currentJobId) return;
+            
+            fetch(`/job_status/${currentJobId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateProgress(data.progress, data.message);
+                    
+                    if (data.status === 'completed') {
+                        clearInterval(statusCheckInterval);
+                        updateProgress(100, 'Profile data saved successfully!');
+                        updateProgressStep(4, true);
+                        setTimeout(() => showSuccess(data), 500);
+                    } else if (data.status === 'failed') {
+                        clearInterval(statusCheckInterval);
+                        showError(data.message);
+                    }
+                } else {
+                    clearInterval(statusCheckInterval);
+                    showError(data.error || 'Failed to check status');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking status:', error);
+                clearInterval(statusCheckInterval);
+                showError('Error checking connection status');
+            });
+        }
+        
+        function updateProgress(progress, message) {
+            // Update circular progress
+            const progressCircle = document.getElementById('progressCircle');
+            const progressPercent = document.getElementById('progressPercent');
+            const progressMessage = document.getElementById('progressMessage');
+            
+            if (progressCircle) {
+                const circumference = 314.16; // 2 * π * 50
+                const offset = circumference - (progress / 100) * circumference;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+            
+            if (progressPercent) {
+                progressPercent.textContent = Math.round(progress) + '%';
+            }
+            
+            if (progressMessage) {
+                progressMessage.textContent = message;
+            }
+            
+            // Update progress steps based on percentage
+            if (progress >= 25) updateProgressStep(2, true);
+            if (progress >= 50) updateProgressStep(3, true);
+            if (progress >= 75) updateProgressStep(4, true);
+        }
+        
+        function updateProgressStep(stepNumber, active) {
+            const step = document.getElementById(`step${stepNumber}`);
+            if (step) {
+                if (active) {
+                    step.style.opacity = '1';
+                    const icon = step.querySelector('i');
+                    if (stepNumber < 4) {
+                        icon.className = 'fas fa-circle-notch fa-spin';
+                    } else {
+                        icon.className = 'fas fa-check';
+                    }
+                } else {
+                    step.style.opacity = '0.4';
+                }
+            }
+        }
+        
+        function showSuccess(data) {
+            document.getElementById('progressDisplay').style.display = 'none';
+            document.getElementById('successDisplay').style.display = 'block';
+            
+            // Show extracted data preview if available
+            if (data && data.data) {
+                const previewContent = document.getElementById('dataPreviewContent');
+                if (previewContent) {
+                    let preview = '';
+                    if (data.data.headline) preview += `• Headline: ${data.data.headline.substring(0, 60)}...\n`;
+                    if (data.data.current_position) preview += `• Position: ${data.data.current_position}\n`;
+                    if (data.data.company) preview += `• Company: ${data.data.company}\n`;
+                    if (data.data.location) preview += `• Location: ${data.data.location}\n`;
+                    if (data.data.skills && data.data.skills.length) preview += `• Skills: ${data.data.skills.slice(0, 3).join(', ')}${data.data.skills.length > 3 ? '...' : ''}\n`;
+                    
+                    previewContent.innerHTML = preview.replace(/\n/g, '<br>') || 'Profile data successfully imported';
+                }
+            }
+            
+            currentJobId = null;
+        }
+        
+        function showError(errorMsg) {
+            document.getElementById('progressDisplay').style.display = 'none';
+            document.getElementById('errorDisplay').style.display = 'block';
+            document.getElementById('errorMessage').textContent = errorMsg;
+            currentJobId = null;
+        }
+        
+        window.resetLinkedInForm = function() {
+            document.getElementById('linkedinForm').style.display = 'block';
+            document.getElementById('progressDisplay').style.display = 'none';
+            document.getElementById('successDisplay').style.display = 'none';
+            document.getElementById('errorDisplay').style.display = 'none';
+            document.getElementById('linkedinUrl').value = '';
+            
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+                statusCheckInterval = null;
+            }
+            currentJobId = null;
+        };
+        
+        // Toast notification function
+        window.showToast = function(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+                ${type === 'error' ? 'background: #ff6b6b;' : 'background: #0077B5;'}
+            `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        };
+        
+        // Manual import function
+        window.showManualImport = function() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%;">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Manual Profile Import</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Copy and paste your LinkedIn profile information manually:</p>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Headline:</label>
+                        <input type="text" id="manualHeadline" placeholder="e.g., Senior Software Engineer | Full-Stack Developer" 
+                               style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Current Position:</label>
+                        <input type="text" id="manualPosition" placeholder="e.g., Senior Software Engineer" 
+                               style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Company:</label>
+                        <input type="text" id="manualCompany" placeholder="e.g., Tech Corp Inc." 
+                               style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">About Section:</label>
+                        <textarea id="manualAbout" placeholder="Your LinkedIn about section..." 
+                                  style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; height: 100px; resize: vertical;"></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button onclick="document.body.removeChild(this.closest('.manual-import-modal'))" 
+                                style="padding: 0.75rem 1.5rem; border: 1px solid #ddd; background: white; color: #333; border-radius: 6px; cursor: pointer;">
+                            Cancel
+                        </button>
+                        <button onclick="saveManualImport()" 
+                                style="padding: 0.75rem 1.5rem; border: none; background: #0077B5; color: white; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                            Save Profile
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'manual-import-modal';
+            document.body.appendChild(modal);
+        };
+        
+        // Save manual import
+        window.saveManualImport = function() {
+            const headline = document.getElementById('manualHeadline').value.trim();
+            const position = document.getElementById('manualPosition').value.trim();
+            const company = document.getElementById('manualCompany').value.trim();
+            const about = document.getElementById('manualAbout').value.trim();
+            
+            if (!headline && !position && !company && !about) {
+                showToast('Please fill in at least one field', 'error');
+                return;
+            }
+            
+            // Save manual data via API
+            fetch('/save_manual_profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    headline: headline,
+                    current_position: position,
+                    company: company,
+                    about_section: about
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Close modal
+                    document.body.removeChild(document.querySelector('.manual-import-modal'));
+                    
+                    // Show success
+                    resetLinkedInForm();
+                    showToast('Profile saved successfully!');
+                    
+                    // Refresh page after delay
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.error || 'Failed to save profile', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error saving profile', 'error');
+            });
+        };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    } else {
+        // DOM is already loaded
+        initDashboard();
+    }
+})();
+</script>
+
+<!-- Theme Script -->
+<script>
+    // Theme toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        
+        if (themeToggle) {
+            themeToggle.checked = savedTheme === 'dark';
+            
+            themeToggle.addEventListener('change', function() {
+                const newTheme = this.checked ? 'dark' : 'light';
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+        }
+    });
+    
+    // Chrome Extension Approval Functions
+    window.approveExtension = function() {
+        const approvalCard = document.getElementById('extensionApprovalCard');
+        const approveBtn = approvalCard.querySelector('button[onclick="approveExtension()"]');
+        
+        approveBtn.disabled = true;
+        approveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Approving...';
+        
+        // Send approval to backend
+        fetch('/extension/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'approve'
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showToast('Extension approved successfully!', 'success');
+                approvalCard.style.display = 'none';
+            } else {
+                showToast(result.error || 'Failed to approve extension', 'error');
+                approveBtn.disabled = false;
+                approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Connection';
+            }
+        })
+        .catch(error => {
+            console.error('Extension approval error:', error);
+            showToast('Failed to approve extension', 'error');
+            approveBtn.disabled = false;
+            approveBtn.innerHTML = '<i class="fas fa-check"></i> Approve Connection';
+        });
+    };
+    
+    window.denyExtension = function() {
+        const approvalCard = document.getElementById('extensionApprovalCard');
+        
+        // Send denial to backend
+        fetch('/extension/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'deny'
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                showToast('Extension access denied', 'info');
+                approvalCard.style.display = 'none';
+            } else {
+                showToast(result.error || 'Failed to deny extension', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Extension denial error:', error);
+            showToast('Failed to deny extension', 'error');
+        });
+    };
+    
+    // Check for pending extension approvals
+    function checkExtensionApprovals() {
+        fetch('/extension/pending-approvals')
+            .then(response => response.json())
+            .then(result => {
+                if (result.success && result.approvals && result.approvals.length > 0) {
+                    showExtensionApprovalCard(result.approvals[0]);
+                }
+            })
+            .catch(error => {
+                console.error('Extension approval check error:', error);
+            });
+    }
+    
+    function showExtensionApprovalCard(approval) {
+        const card = document.getElementById('extensionApprovalCard');
+        
+        // Update card details
+        document.getElementById('extensionVersion').textContent = approval.extension_version || '1.0.0';
+        
+        const requestTime = new Date(approval.created_at);
+        const timeAgo = getTimeAgo(requestTime);
+        document.getElementById('extensionRequestTime').textContent = timeAgo;
+        
+        // Show the card
+        card.style.display = 'block';
+    }
+    
+    function getTimeAgo(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        
+        if (diffMins < 1) return 'Just now';
+        if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+        
+        const diffHours = Math.floor(diffMins / 60);
+        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        
+        const diffDays = Math.floor(diffHours / 24);
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    }
+    
+    // Start checking for extension approvals on page load
+    checkExtensionApprovals();
+    
+    // Check periodically for new approval requests
+    setInterval(checkExtensionApprovals, 30000); // Check every 30 seconds
+</script>
+
+</body>
+</html>
