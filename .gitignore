@@ -92,3 +92,4 @@ courses_backup.html
 
 # Ignore static asset cache
 static/images/*.cache
+passenger_wsgi.py
