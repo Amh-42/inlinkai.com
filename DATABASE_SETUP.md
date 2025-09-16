@@ -174,7 +174,7 @@ Create a `.env` file in the project root:
 
 ```env
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/inlinkai
+DATABASE_URL=postgresql://neondb_owner:npg_uVkSceoJI83L@ep-cold-thunder-a80x1s7v-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_HOST=localhost
